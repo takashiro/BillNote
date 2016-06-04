@@ -1,0 +1,52 @@
+<!--{template header}-->
+
+<script type="text/javascript">
+$(function(){
+	$('#unit_list').editlist({
+		'edit' : '$mod_url&action=edit',
+		'delete' : '$mod_url&action=delete',
+		'attr' : ['hidden', 'name', 'type'],
+		'buttons' : {'delete':'删除'}
+	});
+});
+</script>
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=product">商品</a></li>
+	<li>商品单位</li>
+</ol>
+
+<div class="box">
+	<h2>商品单位设置</h2>
+	<div id="unit_list" class="list">
+		<table>
+			<thead><tr><td>隐藏</td><td>名称</td><td>类型</td><td>操作</td></tr></thead>
+			<tbody>
+				<!--{loop $product_units $u}-->
+				<tr data-primaryvalue="$u[id]">
+					<td data-realvalue="$u[hidden]"><!--{if $u['hidden']}-->是<!--{else}-->否<!--{/if}--></td>
+					<td>$u[name]</td>
+					<td data-realvalue="$u[type]"><!--{if $u['type'] == 1}-->价格<!--{else}-->数量<!--{/if}--></td>
+					<td></td>
+				</tr>
+				<!--{/loop}-->
+				<tr>
+					<td>{echo Template::select('', array('否', '是'))}</td>
+					<td><input type="text" /></td>
+					<td>{echo Template::select('', array(2 => '数量', 1 => '价格'))}</td>
+					<td><button type="button" class="add">添加</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="notice">
+		<ol>
+			<li>价格单位可以添加多个，系统使用第一个未隐藏的价格。</li>
+			<li>数量单位添加后可以在商品价格设置中选择。</li>
+		</ol>
+	</div>
+</div>
+
+<!--{template footer}-->

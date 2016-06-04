@@ -1,0 +1,102 @@
+
+.container, footer{
+	width:800px;
+}
+
+.market .product_type_fixed{
+	left: 50%;
+	margin-left: -400px;
+}
+
+footer{
+	left: 50%;
+	margin-left: -400px;
+}
+
+#sharebox{
+	display:block;
+	position:fixed;
+	top:5px;
+	right:10px;
+	width:156px;
+	background-color:#fff;
+	border:#ccc 1px solid;
+	box-shadow:0 0 10px rgba(20, 20, 20, 0.1);
+	border-radius:6px;
+	padding:3px;
+	opacity:0.6;
+	transition:0.2s linear;
+	text-align:center;
+}
+
+#sharebox img{
+	vertical-align:middle;
+}
+
+#sharebox p{
+	margin:0;
+}
+
+#sharebox:hover{
+	opacity:1;
+}
+
+#sharebox span{
+	display:inline-block;
+	float:left;
+	margin:7px;
+	color:#fe6565;
+}
+
+#sharebox a.button{
+	width:63px;
+	height:24px;
+	line-height:24px;
+	font-size:9pt;
+	padding:0;
+	border-radius:3px;
+	vertical-align:middle;
+}
+
+.messagebox{
+	width:470px;
+}
+
+
+.popup_message{
+	width:500px;
+	min-height:350px;
+}
+
+.popup_message .content{
+	max-height:420px;
+}
+
+.debug{
+	display:block;
+	color:white;
+	font-size:9pt;
+	margin-top:10px;
+	text-shadow:rgb(153, 153, 153) 0px 1px 1px;
+}
+
+.debug .runtime{
+	text-align:right;
+}
+
+.container{
+	padding-bottom:80px;
+}
+
+.order_list ul.item li{
+	display: inline-block;
+	margin: 0 0.5em;
+}
+
+.mpage{
+	padding: 0;
+}
+
+.mpage a.first, .mpage a.prev, .mpage a.next, .mpage a.last{
+	position: static;
+}

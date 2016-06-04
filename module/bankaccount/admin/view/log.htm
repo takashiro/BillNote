@@ -1,0 +1,59 @@
+<!--{template header}-->
+
+<script type="text/javascript" src="./js/datetime.js"></script>
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=bankaccount">资金账户</a></li>
+	<li>账户操作记录</li>
+</ol>
+
+<div class="box list">
+	<h1>资金账户操作记录</h1>
+
+	<form class="quick_search" action="$mod_url&action=log&id=$id" method="post">
+		<dl>
+			<dt>时间：</dt>
+			<dd><input type="text" name="time_start" class="datetime" value="$time_start" /> - <input type="text" name="time_end" class="datetime" value="$time_end" /></dd>
+		</dl>
+		<button type="submit" name="format" value="html">查找</button>
+	</form>
+
+	<div class="content">
+		<table>
+			<thead>
+				<tr><th></th><td>操作</td><td>金额</td><td>原因</td><td>操作人</td><td>时间</td></tr>
+			</thead>
+			<tbody>
+			<!--{loop $logs $l}-->
+			<tr>
+				<th></th>
+				<td>
+					<!--{if $l['operation'] == BankAccount::OPERATION_TRANSFER}-->
+					转账
+					<!--{elseif $l['operation'] == BankAccount::OPERATION_ORDER_INCOME}-->
+					订单交付
+					<!--{elseif $l['operation'] == BankAccount::OPERATION_PRODUCT_IMPORT}-->
+					商品购入
+					<!--{elseif $l['operation'] == BankAccount::OPERATION_WITHDRAW}-->
+					提款
+					<!--{elseif $l['operation'] == BankAccount::OPERATION_DEPOSIT}-->
+					注资
+					<!--{else}-->
+					未知
+					<!--{/if}-->
+				</td>
+				<td>$l[delta]</td>
+				<td>$l[reason]</td>
+				<td><!--{if $l['operatorid']}-->$l[operator]<!--{else}--><em>系统</em><!--{/if}--></td>
+				<td>{echo rdate($l['dateline'])}</td>
+			</tr>
+			<!--{/loop}-->
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{echo Template::mpage($pagenum, $page, $limit, $mod_url.'&action=log&id='.$id.'&time_start='.$time_start.'&time_end='.$time_end)}
+
+<!--{template footer}-->

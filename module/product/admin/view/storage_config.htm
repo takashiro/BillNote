@@ -1,0 +1,37 @@
+{template header}
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=product">商品</a></li>
+	<li><a href="admin.php?mod=productstorage">库存管理</a></li>
+	<li>设置</li>
+</ol>
+
+<div class="box">
+	<h1>库存设置</h1>
+
+	<div class="content">
+		<form class="toast edit_form" action="$mod_url&action=config" method="post">
+			<table>
+				<tr>
+					<th>预售开始时间：</th>
+					<td><input type="text" name="bookingtime_start" value="$storageconfig[bookingtime_start]" /></td>
+					<th>预售结束时间：</th>
+					<td><input type="text" name="bookingtime_end" value="$storageconfig[bookingtime_end]" /></td>
+				</tr>
+			</table>
+			<div class="post_buttons">
+				<button type="submit">修改设置</button>
+			</div>
+		</form>
+	</div>
+
+	<div class="notice">
+		<ol>
+			<li>填写格式为H:i:s（时:分:秒），采用24时制。</li>
+			<li>仅对“预售”模式的库存生效。</li>
+		</ol>
+	</div>
+</div>
+
+{template footer}

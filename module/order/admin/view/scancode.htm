@@ -1,0 +1,89 @@
+{template header}
+
+<script type="text/javascript">
+$(function(){
+	function focusOnId(){
+		$('#orderid').focus();
+	}
+	focusOnId();
+	$('#action').change(focusOnId);
+
+	$('#mark_form').submit(function(e){
+		var orderid = $('#orderid').val();
+		if(orderid.length == 13){
+			orderid = orderid.substr(3, 9);
+		}
+
+		orderid = parseInt(orderid, 10);
+		if(isNaN(orderid)){
+			$('#orderid').focus();
+			return false;
+		}
+
+		$('#orderid').val(orderid);
+
+		var data = $(this).serialize();
+		$('#orderid').val('');
+
+		$.get($(this).attr('action'), data, function(){
+			$('#correct_audio')[0].play();
+
+			var new_result = $('<p></p>');
+			new_result.html('订单号' + orderid + '成功标记为【' + $('#action option:selected').html() + '】！');
+			$('#result_list').append(new_result);
+
+			setTimeout(function(){
+				new_result.slideUp(500, function(){
+					$(this).remove();
+				});
+			}, 3000);
+		});
+
+		return false;
+	});
+});
+</script>
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=order">订单</a></li>
+	<li>扫码处理</li>
+</ol>
+
+<div class="box">
+	<h1>扫码处理订单</h1>
+	<div class="content">
+		<div class="notice">
+			<ol>
+				<li>请先选择好订单状态。</li>
+				<li>扫描枪扫码后，订单号会被清空，可再次直接扫码。</li>
+			</ol>
+		</div>
+
+		<form id="mark_form" action="admin.php" method="get" class="edit_form">
+			<input type="hidden" name="mod" value="order" />
+			<table>
+				<tr>
+					<th>订单状态</th>
+					<td>
+						<select id="action" name="action">
+							<option value="mark_unsorted">{lang common order_unsorted}</option>
+							<option value="mark_sorted">{lang common order_sorted}</option>
+							<option value="cancel">{lang common order_canceled}</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>订单号：</th>
+					<td><input type="text" id="orderid" name="orderid" /></td>
+				</tr>
+			</table>
+			<button type="submit">处理订单</button>
+		</form>
+		<div id="result_list" class="toast_list"></div>
+	</div>
+</div>
+
+<audio id="correct_audio" src="{__TEMPLATE_ROOT__}media/correct.ogg">请使用支持HTML 5的浏览器。</audio>
+
+{template footer}

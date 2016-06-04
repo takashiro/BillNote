@@ -1,0 +1,17 @@
+		<div class="debug">
+			<div class="copyright">$_CONFIG[sitename]<!--{if !empty($_CONFIG['icp'])}-->($_CONFIG[icp])<!--{/if}-->, Authored by Kazuichi Takashiro © 2013 - 2015</div>
+			<div class="runtime">
+				GMT {TIMEZONE}, {echo rdate(TIMESTAMP, 'Y-m-d H:i:s')}, Processed in {echo microtime(true) - $_G['starttime']} seconds, {echo $db->query_num()} Quer<!--{if $db->query_num() > 1}-->ies<!--{else}-->y<!--{/if}-->
+			</div>
+		</div>
+	</section>
+	<footer>
+		<ul class="button_list">
+			<li id="myorder"><a href="index.php?mod=order">订单<span id="delivering-order-number" class="number_notice">0</span></a></li>
+			<li id="mywallet"><a href="index.php?mod=user">我的</a></li>
+			<li id="buy"><a href="index.php?mod=product">商城</a></li>
+			<li id="cart"><a href="index.php?mod=product:cart">购物车<span id="cart-goods-number" class="number_notice">0</span></a></li>
+		</ul>
+	</footer>
+</body>
+</html>

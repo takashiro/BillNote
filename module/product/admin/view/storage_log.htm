@@ -1,0 +1,57 @@
+{template header}
+
+<script type="text/javascript" src="./js/datetime.js"></script>
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=product">商品</a></li>
+	<li><a href="admin.php?mod=productstorage">库存管理</a></li>
+</ol>
+
+<div class="box">
+	<h2>库存管理记录</h2>
+	<form class="quick_search" action="$mod_url&action=log" method="post">
+		<dl>
+			<dt>时间：</dt>
+			<dd><input type="text" name="time_start" class="datetime" value="$time_start" /> - <input type="text" name="time_end" class="datetime" value="$time_end" /></dd>
+		</dl>
+		<button type="submit" name="format" value="html">查找</button>
+	</form>
+
+	<div class="list">
+		<table>
+			<thead>
+				<tr>
+					<th></th>
+					<td>时间</td>
+					<td>操作人</td>
+					<td>商品</td>
+					<td>库存号</td>
+					<td>库存备注</td>
+					<td>库存变化</td>
+					<td>支付账号</td>
+					<td>金额({echo Product::$PriceUnit})</td>
+				</tr>
+			</thead>
+			<tbody>
+				<!--{loop $logs $l}-->
+				<tr>
+					<th></th>
+					<td>{echo rdate($l['dateline'])}</td>
+					<td>{$l[realname]}</td>
+					<td>$l[productname]</td>
+					<td>$l[storageid]</td>
+					<td>$l[storageremark]</td>
+					<td><!--{if $l['amount'] > 0}--><span style="color:red">+<!--{else}--><span style="color:green"><!--{/if}-->$l[amount]</span></td>
+					<td>$l[bankaccountremark]</td>
+					<td>$l[totalcosts]</td>
+				</tr>
+				<!--{/loop}-->
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{echo Template::mpage($total, $page, $limit, $mod_url.'&action=log&time_start='.$time_start.'&time_end='.$time_end)}
+
+{template footer}

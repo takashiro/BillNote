@@ -1,0 +1,97 @@
+body{
+	margin: 0;
+	background: #BABABA;
+}
+
+body, input, select, textarea, button{
+	font-family: '微软雅黑';
+}
+
+header{
+	display: none;
+}
+
+footer{
+	text-align: center;
+	font-size: 9pt;
+	color: gray;
+}
+
+.container{
+	min-width: 500px;
+}
+
+.edit_form table th{
+	width: 8em;
+	text-align: right;
+}
+
+.number_board{
+	width: 330px;
+	margin: 0 0 0 80px;
+}
+
+.number_board button{
+	font-size: 32pt;
+	width: 80px;
+	height: 80px;
+	overflow: hidden;
+	margin: 2px;
+}
+
+#ticket_form table th, #ticket_form table td, #ticket_form input{
+	font-size: 15pt;
+}
+
+.box h2{
+	color: white;
+	background: #C9E835;
+	text-align: center;
+	margin: 15px 15px 0 15px;
+	font-size: 20pt;
+	line-height: 2em;
+	overflow: hidden;
+}
+
+.box h2 img{
+	vertical-align: middle;
+	margin: 5px 0;
+}
+
+.box{
+	background: white;
+	color: #52504B;
+	width: 560px;
+	margin: 10px auto;
+	border-radius: 20px;
+	padding: 5px;
+	position: relative;
+}
+
+.box table{
+	margin: 0 auto;
+}
+
+.post_buttons{
+	position: absolute;
+	right: 60px;
+	bottom: 20px;
+	width: 120px;
+}
+
+.post_buttons button{
+	width: 120px;
+	height: 60px;
+	font-size: 28pt;
+	margin: 10px 0;
+}
+
+input{
+	border: #ABCA17 1px solid;
+}
+
+button{
+	background: #ABCA17;
+	border: #CBD899 1px solid;
+	color: white;
+}

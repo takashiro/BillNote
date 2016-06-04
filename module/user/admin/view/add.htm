@@ -1,0 +1,27 @@
+<!--{template header}-->
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=user">用户</a></li>
+	<li>添加用户</li>
+</ol>
+
+<div class="box edit_form">
+	<h1>往来单位信息</h1>
+
+	<form action="$mod_url&action=add" method="post">
+		<table>
+			<tr>
+				<th>名称：</th>
+				<td><input name="nickname" /></td>
+				<td class="tips">用于显示在订单列表页</td>
+			</tr>
+		</table>
+
+		<div class="post_buttons">
+			<button type="submit">添加</button>
+		</div>
+	</form>
+</div>
+
+<!--{template footer}-->

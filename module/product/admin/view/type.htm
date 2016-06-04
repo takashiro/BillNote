@@ -1,0 +1,45 @@
+<!--{template header}-->
+
+<script type="text/javascript">
+$(function(){
+	$('#unit_list').editlist({
+		'edit' : '$mod_url&action=edit',
+		'delete' : '$mod_url&action=delete',
+		'attr' : ['name', 'displayorder', 'hidden'],
+		'buttons' : {'delete':'删除'}
+	});
+});
+</script>
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=product">商品</a></li>
+	<li>商品类型</li>
+</ol>
+
+<div class="box">
+	<h2>商品类型设置</h2>
+	<div id="unit_list" class="list">
+		<table>
+			<thead><tr><td>名称</td><td>显示顺序</td><td>隐藏</td><td>操作</td></tr></thead>
+			<tbody>
+				<!--{loop $product_types $t}-->
+				<tr data-primaryvalue="$t[id]">
+					<td>$t[name]</td>
+					<td>$t[displayorder]</td>
+					<td data-realvalue="$t[hidden]"><!--{if empty($t['hidden'])}-->否<!--{else}-->是<!--{/if}--></td>
+					<td></td>
+				</tr>
+				<!--{/loop}-->
+				<tr>
+					<td><input type="text" /></td>
+					<td><input type="text" value="0" /></td>
+					<td>{echo Template::select('', array('否', '是'))}</td>
+					<td><button type="button" class="add">添加</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!--{template footer}-->

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>$_CONFIG[sitename]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<base href="{$_G[root_url]}" />
+<link rel="shortcut icon" href="{__TEMPLATE_ROOT__}image/icon_watermelon2.png"/>
+<link rel="stylesheet" href="{__TEMPLATE_ROOT__}image/common.css?$_CONFIG[refversion]" type="text/css" />
+<link rel="stylesheet" type="text/css" media="screen and (min-width:800px)" href="{__TEMPLATE_ROOT__}image/desktop.css?$_CONFIG[refversion]" type="text/css">
+<!--{if !empty($_CONFIG['jquery_cdn'])}-->
+<script type="text/javascript" src="$_CONFIG[jquery_cdn]"></script>
+<!--{/if}-->
+<script>window.jQuery || document.write('<script src="./3rdparty/jquery/jquery-2.0.3.min.js"><\/script>');</script>
+</head>
+<body>
+	<div class="box messagebox">
+		<h1>$_CONFIG[sitename] - 提示消息</h1>
+		<div class="content">
+			<p>$message</p>
+			<!--{if $url_forward != 'confirm'}-->
+				<!--{if !empty($url_forward)}-->
+				<a href="$url_forward" target="_top">如果您的浏览器没有自动跳转，请点击这里</a>
+				<script type="text/javascript">
+				setTimeout('top.location.href="$url_forward";', 5 * 1000);
+				</script>
+				<!--{/if}-->
+			<!--{else}-->
+				<button type="button" onclick="top.location.href=location.href + (location.href.indexOf('?') ? '&' : '?') + 'confirm=true&confirm_key=$confirm_key';">确认</button>
+				<button type="button" onclick="history.back();">取消</button>
+			<!--{/if}-->
+		</div>
+	</div>
+</body>
+</html>

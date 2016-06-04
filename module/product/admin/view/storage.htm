@@ -1,0 +1,84 @@
+{template header}
+
+<style type="text/css">
+tr.selectable{
+	cursor: pointer;
+}
+p.subtype{
+	font-size: 9pt;
+	margin: 0;
+}
+</style>
+
+<script type="text/javascript">
+var ProductList = {echo json_encode($products)};
+
+$(function(){
+	$('#product_list').editlist({
+		'edit': '',
+		'delete': '',
+		'noedit' : true,
+		'submit_url' : '{$mod_url}&action=edit',
+		'attr' : ['', 'producttype', 'productid', 'warehouseid', '', 'delta', '', 'subtotal'],
+		'buttons' : {'delete':'删除'}
+	});
+});
+</script>
+<script type="text/javascript" src="extension/module/product/admin/view/js/productstorage.js?$_CONFIG[refversion]"></script>
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=product">商品</a></li>
+	<li>库存管理</li>
+</ol>
+
+<div class="box">
+	<h1>商品库存</h1>
+	<div class="headactions">
+		<a href="$mod_url&action=config">[预售时间设置]</a>
+		<a href="$mod_url&action=log">[库存管理记录]</a>
+	</div>
+	<div class="content">
+
+		<h2>库存调整</h2>
+		<div id="product_list">
+			<div class="list">
+				<table>
+					<thead>
+						<tr>
+							<th></th>
+							<td>商品类型</td>
+							<td>商品名称</td>
+							<td>库存</td>
+							<td>库存余量</td>
+							<td>修改库存</td>
+							<td>采购单价({echo Product::$PriceUnit})</td>
+							<td>采购总价({echo Product::$PriceUnit})</td>
+							<td>操作</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th></th>
+							<td class="product_type_input">{echo Template::select('', Product::Types())}</td>
+							<td class="product_name_input"><select></select></td>
+							<td class="warehouse_input">{echo Template::select('', Warehouse::Names())}</td>
+							<td class="warehouse_num"></td>
+							<td><input type="text" class="amount number narrow" value="0" /></td>
+							<td><input type="text" class="unitprice number dnarrow" value="0.00" /></td>
+							<td><input type="text" class="subtotal number dnarrow" value="0.00" /></td>
+							<td><button type="button" class="add">添加</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="post_buttons">
+				<button type="button" class="submit">修改完成</button>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+{template footer}

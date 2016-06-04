@@ -1,0 +1,37 @@
+<!--{template header}-->
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=order">订单</a></li>
+	<li>小票设置</li>
+</ol>
+
+<div class="box edit_form">
+	<h1>小票自定义选项</h1>
+	<form class="toast" action="$mod_url" method="post">
+
+	<table>
+		<tr>
+			<th><label>小票附加信息：</label></th>
+			<td>
+				<input type="text" name="extrainfo" value="$config[extrainfo]" />
+				<span class="tips">显示在小票顶端</span>
+			</td>
+		</tr>
+		<tr>
+			<th><label>小票箴言：</label></th>
+			<td>
+				<textarea name="tips">$config[tips]</textarea>
+				<span class="tips">每行一条，系统随机选择一条打印</span>
+			</td>
+		</tr>
+	</table>
+
+	<div class="post_buttons">
+		<button type="submit">修改设置</button>
+	</div>
+
+	</form>
+</div>
+
+<!--{template footer}-->

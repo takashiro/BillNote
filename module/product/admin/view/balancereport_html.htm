@@ -1,0 +1,129 @@
+{template header}
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=product">商品</a></li>
+	<li>毛利报表</li>
+</ol>
+
+<script type="text/javascript" src="./js/datetime.js"></script>
+
+<div class="box">
+	<h1>毛利报表</h1>
+	<div class="content">
+		<form class="quick_search" action="$mod_url" method="post">
+			<dl>
+				<dt>报表：</dt>
+				<dd>{echo Template::select('charttype', array('stat' => '统计', 'detail' => '详细'))}</dd>
+				<dt>时间：</dt>
+				<dd><input type="text" name="time_start" class="datetime" value="$time_start" /> - <input type="text" name="time_end" class="datetime" value="$time_end" /></dd>
+				<dt>资金账号：</dt>
+				<dd>{echo Template::select('bankaccountid', $bankaccounts, $bankaccountid)}</dd>
+				<dt>产品类型：</dt>
+				<dd>{echo Template::select('producttype', $producttypes, $producttype)}</dd>
+				<dt>产品：</dt>
+				<dd>{echo Template::select('productid', array(0 => '不限'))}</dd>
+			</dl>
+			<div class="post_buttons"><button type="submit" name="format" value="html">统计</button></div>
+		</form>
+
+		<!--{if empty($_REQUEST['charttype']) || $_REQUEST['charttype'] == 'stat'}-->
+		<h2>统计报表</h2>
+		<div class="list">
+			<table>
+				<thead>
+					<tr>
+						<td></td>
+						<td>产品名称</td>
+						<td>销量</td>
+						<td>收入({echo Product::$PriceUnit})</td>
+						<td>平均收入({echo Product::$PriceUnit}/个)</td>
+						<td>进货量</td>
+						<td>成本({echo Product::$PriceUnit})</td>
+						<td>平均成本({echo Product::$PriceUnit}/个)</td>
+						<td>利润({echo Product::$PriceUnit})</td>
+						<td>平均利润({echo Product::$PriceUnit}/个)</td>
+					</tr>
+				</thead>
+				<tbody>
+				<!--{loop $product_stat $s}-->
+					<tr>
+						<td></td>
+						<td>{$s[name]}</td>
+						<td>{$s[sale][amount]}</td>
+						<td>{$s[sale][fee]}</td>
+						<td>{echo sprintf('%.2f', $s['sale']['average'])}</td>
+						<td>{$s[import][amount]}</td>
+						<td>{$s[import][fee]}</td>
+						<td>{echo sprintf('%.2f', $s['import']['average'])}</td>
+						<td>{echo sprintf('%.2f', $s['profit']['total'])}</td>
+						<td>{echo sprintf('%.2f', $s['profit']['average'])}</td>
+					</tr>
+				<!--{/loop}-->
+				</tbody>
+			</table>
+		</div>
+		<!--{elseif $_REQUEST['charttype'] == 'detail'}-->
+		<h2>详细报表</h2>
+		<div class="list">
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<td>时间</td>
+						<td>账号</td>
+						<td>金额({echo Product::$PriceUnit})</td>
+						<td>商品</td>
+						<td>数量</td>
+						<td>原因</td>
+					</tr>
+				</thead>
+				<tbody>
+				<!--{loop $logs $l}-->
+					<tr>
+						<th></th>
+						<td>{echo rdate($l['dateline'])}</td>
+						<td>$l[bankaccount]</td>
+						<td><!--{if $l['delta'] > 0}-->+<!--{/if}-->{$l[delta]}</td>
+						<td>$l[productname]</td>
+						<td>$l[amount]</td>
+						<td>$l[reason]</td>
+					</tr>
+				<!--{/loop}-->
+					<tr>
+						<th></th>
+						<td></td>
+						<td>总支出</td>
+						<td>-{$stat[out]}</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<th></th>
+						<td></td>
+						<td>总收入</td>
+						<td>+{$stat[in]}</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<th></th>
+						<td></td>
+						<td>利润</td>
+						<td>{$stat[all]}</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!--{/if}-->
+
+	</div>
+</div>
+
+{template footer}

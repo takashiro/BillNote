@@ -1,0 +1,53 @@
+
+.login_form{
+	border-radius:8px;
+	box-shadow:rgb(116, 116, 116) 0px 0px 8px 0px;
+	margin:40px auto;
+	background:white;
+	text-align:center;
+	padding-bottom:10px;
+}
+
+.login_form .header{
+	height:17px;
+	background:url(icon_watermelon.png) repeat-x;
+	background-size:auto 17px;
+	padding-top:17px;
+	margin-bottom:40px;
+}
+
+.login_form label, .login_form input{
+	display:block;
+	margin:auto;
+}
+
+.login_form input{
+	margin:10px auto;
+}
+
+.login_api{
+	width: 184px;
+	margin: auto;
+	padding-bottom: 20px;
+	margin-bottom: 30px;
+	border-bottom: gray 1px dotted;
+}
+
+.login_api a{
+	display: block;
+	height: 64px;
+	line-height: 64px;
+	padding-left: 64px;
+	border: #FFC8C8 1px solid;
+	border-radius: 10px;
+	margin: 10px 0;
+	box-shadow: #FFC8C8 0 0 5px;
+}
+
+.qq_login{
+	background: url(qq_logo.png) no-repeat;
+}
+
+.wechat_login{
+	background: url(wx_logo.png) no-repeat;
+}

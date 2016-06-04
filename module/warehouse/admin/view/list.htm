@@ -1,0 +1,41 @@
+<!--{template header}-->
+
+<script type="text/javascript">
+$(function(){
+	$('#warehouse_list').editlist({
+		'edit': '$mod_url&action=edit',
+		'delete': '$mod_url&action=delete',
+		'attr' : ['name'],
+		'buttons' : {'delete':'删除'}
+	});
+});
+</script>
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li>仓库列表</li>
+</ol>
+
+<div class="box list">
+	<h1>仓库列表</h1>
+
+	<div class="content">
+		<table id="warehouse_list">
+			<thead><tr><td>名称</td><td>操作</td></tr></thead>
+			<tbody>
+			<!--{loop $warehouses $s}-->
+				<tr data-primaryvalue="$s[id]">
+					<td>$s[name]</td>
+					<td></td>
+				</tr>
+			<!--{/loop}-->
+			<tr>
+				<td><input type="text" /></td>
+				<td><button type="button" class="add">添加</button></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!--{template footer}-->

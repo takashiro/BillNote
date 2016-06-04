@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>$_CONFIG[sitename]管理面板</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<script type="text/javascript" src="./3rdparty/jquery/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="./3rdparty/jquery.ean13/jquery-ean13.min.js"></script>
+<script type="text/javascript">
+function id2barcode(id){
+	var barcode = '690';	//stands for China
+
+	var leading_zero_num = 9 - id.length;
+	for(var i = 0; i < leading_zero_num; i++){
+		barcode += '0';
+	}
+	barcode += id;
+
+	return barcode;
+}
+</script>
+<style type="text/css">
+body{
+	font-size: small;
+	width: 10cm;
+	padding: 0;
+	margin: 5px;
+	font-family: 宋体;
+	font-weight: bold;
+}
+
+.barcode{
+	border:black 2px solid;
+	border-bottom: 0 solid;
+	text-align: center;
+	padding: 0.3cm 0;
+}
+
+.barcode canvas{
+	width: 9cm;
+	height: 4.5cm;
+}
+
+dl.detail{
+	border:black 1px solid;
+	margin: 0;
+	background: black;
+}
+
+dl.detail dt, dl.detail dd{
+	border:black 1px solid;
+	display: inline-block;
+	padding: 2px;
+	background: white;
+}
+
+dl.detail dt{
+	text-align: right;
+	width: 91px;
+	border-right: 0px solid;
+}
+
+dl.detail dd{
+	width: 273px;
+	margin: 0;
+	float: right;
+	border-left: 0px solid;
+}
+
+.signature{
+	border: black 1px solid;
+	border-top: 0 solid;
+	margin-bottom: 40px;
+}
+
+.signature h4{
+	margin: 0;
+	border: black 1px solid;
+	border-top: 0 solid;
+	padding: 2px;
+}
+
+.signature .content{
+	height: 6em;
+	border: black 1px solid;
+}
+
+</style>
+</head>
+<body>
+
+<!--{eval !empty($order) && empty($orders) && $orders = array($order);}-->
+<!--{loop $orders $order}-->
+
+<script type="text/javascript">
+$(function(){
+	$('#barcode_$order[id]').EAN13(id2barcode('$order[id]'));
+});
+</script>
+
+<div class="barcode"><canvas id="barcode_$order[id]"></canvas></div>
+<dl class="detail">
+	<dt>收货地址</dt>
+	<dd>$order[deliveryaddress]</dd>
+	<dt>收件人</dt>
+	<dd>$order[addressee]</dd>
+	<dt>电话</dt>
+	<dd>$order[mobile]</dd>
+	<dt>下单时间</dt>
+	<dd>$order[dateline]</dd>
+	<dt>订单号</dt>
+	<dd>$order[id]</dd>
+	<dt>总金额</dt>
+	<dd>{$order[totalprice]}{echo Product::$PriceUnit}</dd>
+	<dt>付款状态</dt>
+	<dd>
+		{echo Wallet::$PaymentMethod[$order['paymentmethod']]}
+		<!--{if $order['tradestate']}-->({echo Wallet::$TradeState[$order['tradestate']]})<!--{elseif $order['paymentmethod'] != Wallet::ViaCash}-->(等待付款)<!--{/if}-->
+	</dd>
+</dl>
+<div class="signature">
+	<h4>客户签收</h4>
+	<div class="content"></div>
+</div>
+
+<!--{/loop}-->
+
+<script type="text/javascript">
+window.print();
+</script>
+
+</body>
+</html>

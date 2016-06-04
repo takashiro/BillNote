@@ -1,0 +1,103 @@
+{template header}
+
+<script type="text/javascript">
+var lang = {
+	'storage_inadequate': '{lang message storage_inadequate}',
+	'you_submitted_a_duplicated_order' : '{lang message you_submitted_a_duplicated_order}'
+};
+
+var ProductList = {echo json_encode($products)};
+var BankAccountList = {echo json_encode($bankaccounts)};
+
+$(function(){
+	$('#product_list').editlist({
+		'edit': '',
+		'delete': '',
+		'noedit' : true,
+		'submit_url' : '{$mod_url}&action=order',
+		'attr' : ['', 'producttype', 'productid', 'price', 'number', 'amountunit', 'subtotal', 'warehouseid', 'storagenum'],
+		'buttons' : {'delete':'删除'}
+	});
+});
+</script>
+<script type="text/javascript" src="extension/module/order/admin/view/js/add.js?$_CONFIG[refversion]"></script>
+<style type="text/css">
+ul.header_input{
+	text-align: right;
+	margin-bottom: 1em;
+}
+
+ul.header_input li{
+	display: inline-block;
+	text-align: left;
+}
+</style>
+
+<div class="box list" id="product_list">
+	<h1>详细</h1>
+
+	<div class="notice">
+		<ol>
+			<li>“库存”仅显示标准模式下余量>0的库存或预售模式的库存。</li>
+			<li>无可用库存的商品不显示在商品下拉菜单中。</li>
+			<li>无可选商品的商品类型不显示在类型下拉菜单中。</li>
+		</ol>
+	</div>
+
+	<ul class="header_input editlist_input">
+		<li>往来单位：{echo Template::select('userid', $users)}</li>
+		<li>支付方式：{echo Template::select('paymentmethod', array(Wallet::ViaCash => '现金', Wallet::ViaWallet => '赊销'), 0)}</li>
+		<li>收款账户：<select id="bankaccountid" name="bankaccountid"></select></li>
+	</ul>
+	<table>
+		<thead>
+			<tr>
+				<th></th>
+				<td>类型</td>
+				<td>商品</td>
+				<td>单价 <span class="priceunit">（{echo Product::$PriceUnit}）</span></td>
+				<td colspan="2">数量</td>
+				<td>总价 <span class="priceunit">（{echo Product::$PriceUnit}）</span></td>
+				<td>库存</td>
+				<td>库存余量</td>
+				<td>操作</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th></th>
+				<td class="product_type_input">{echo Template::select('', Product::Types())}</td>
+				<td class="product_name_input"><select></select></td>
+				<td>
+					<input type="text" class="price_input narrow number" value="1" autocomplete="off" />
+				</td>
+				<td>
+					<input type="text" class="number_input narrow number" value="1" autocomplete="off" />
+				</td>
+				<td>
+					{echo Template::select('', Product::AmountUnits())}
+				</td>
+				<td>
+					<input type="text" class="subtotal_input narrow number" value="1" autocomplete="off" />
+				</td>
+				<td class="warehouse_input">{echo Template::select('', Warehouse::Names())}</td>
+				<td class="warehouse_num"></td>
+				<td><button type="button" class="add">添加</button></td>
+			</tr>
+		</tbody>
+	</table>
+	<ul class="header_input editlist_input">
+		<li>总金额：<u id="totalprice">0.00</u>{echo Product::$PriceUnit}</li>
+	</ul>
+
+	<div class="box list editlist_input">
+		<h1>备注</h1>
+		<textarea id="message_input" name="message" autocomplete="off"></textarea>
+	</div>
+
+	<div class="post_buttons">
+		<button type="button" class="submit">提交订单</button>
+	</div>
+</div>
+
+{template footer}

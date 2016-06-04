@@ -1,0 +1,36 @@
+<!--{template header}-->
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=admin">管理员</a></li>
+	<li>管理员列表</li>
+</ol>
+
+<div class="box list">
+	<h1>管理员列表</h1>
+	<div class="headactions">
+		<a href="$mod_url&action=edit">添加管理员</a>
+	</div>
+
+	<div class="content">
+		<table>
+			<thead><tr><td>ID</td><td>账号</td><td>姓名</td><td>手机</td><td>上次登录时间</td><td width="120">操作</td></tr></thead>
+			<tbody>
+			<!--{loop $admins $u}-->
+				<tr>
+					<td>$u[id]</td>
+					<td>$u[account]</td>
+					<td>$u[realname]</td>
+					<td>$u[mobile]</td>
+					<td>{echo $u['logintime'] ? rdate($u['logintime']) : '从未登录'}</td>
+					<td><!--{if $u['permissions'] !== 'all'}--><a href="$mod_url&action=edit&id=$u[id]">[编辑]</a> <a href="$mod_url&action=delete&id=$u[id]">[删除]</a><!--{/if}--></td>
+				</tr>
+			<!--{/loop}-->
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{echo Template::mpage($pagenum, $page, $limit, $mod_url)}
+
+<!--{template footer}-->

@@ -1,0 +1,36 @@
+{template header}
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=bankaccount">资金账号</a></li>
+	<li><!--{if $action == 'withdraw'}-->提款<!--{else}-->注资<!--{/if}--></li>
+</ol>
+
+<div class="box">
+	<h1>资金账户 - <!--{if $action == 'withdraw'}-->提款<!--{else}-->注资<!--{/if}--></h1>
+	<div class="content edit_form">
+		<form class="toast" id="transfer_form" action="admin.php?mod=bankaccount&action=$action&id=$id" method="post">
+			<table>
+				<tr>
+					<th>账号：</th>
+					<td>$account[remark]</td>
+					<td>可用余额：{$account[amount]} {echo Product::$PriceUnit}</td>
+				</tr>
+				<tr>
+					<th>金额：</th>
+					<td><input type="text" id="delta" name="delta" value="0.00" />{echo Product::$PriceUnit}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>原因：</th>
+					<td><input type="text" name="reason" value="{if $action == 'withdraw'}提款{else}注资{/if}" /></td>
+					<td></td>
+				</tr>
+			</table>
+			<button type="submit"><!--{if $action == 'withdraw'}-->提款<!--{else}-->注资<!--{/if}--></button>
+		</form>
+		<div id="result_list" class="toast_list"></div>
+	</div>
+</div>
+
+{template footer}

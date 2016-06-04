@@ -1,0 +1,90 @@
+{template header}
+
+<script type="text/javascript">
+var AccountAmount = {echo json_encode($account_amount);};
+$(function(){
+	$('#sourceaccount').change(function(){
+		var sourceaccount = $(this).val();
+		$('#sourceamount').text(AccountAmount[sourceaccount]);
+
+		$('#targetaccount').html('');
+		$('#sourceaccount option').each(function(){
+			if(!$(this).is(':selected')){
+				var option = $(this).clone();
+				$('#targetaccount').append(option);
+			}
+		});
+		$('#targetaccount').change();
+	});
+
+	$('#targetaccount').change(function(){
+		var targetaccount = $(this).val();
+		$('#targetamount').text(AccountAmount[targetaccount]);
+	});
+
+	$('#sourceaccount').change();
+
+	$('#delta').change(function(){
+		var delta = parseFloat($(this).val());
+		if(isNaN(delta)){
+			$(this).val('');
+		}else{
+			var sourceamount = parseFloat($('#sourceamount').text());
+			if(sourceamount < delta){
+				$(this).val(sourceamount);
+			}else if(delta < 0){
+				$(this).val('0.00');
+			}
+		}
+	});
+
+	$('#transfer_button').click(function(){
+		var delta = parseFloat($('#delta').val());
+		if(delta <= 0){
+			$('#delta').select();
+		}else{
+			$('#transfer_form').submit();
+		}
+	});
+});
+</script>
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=bankaccount">资金账号</a></li>
+	<li>转账</li>
+</ol>
+
+<div class="box">
+	<h1>资金转账</h1>
+	<div class="content edit_form">
+		<form class="toast" id="transfer_form" action="admin.php?mod=bankaccount&action=transfer" method="post">
+			<table>
+				<tr>
+					<th>来源账号：</th>
+					<td width="200">{echo Template::select('sourceaccount', $accounts, $sourceaccount);}</td>
+					<td>可用余额：<span id="sourceamount">-</span>{echo Product::$PriceUnit}</td>
+				</tr>
+				<tr>
+					<th>目标账号：</th>
+					<td>{echo Template::select('targetaccount', array());}</td>
+					<td>可用余额：<span id="targetamount">-</span>{echo Product::$PriceUnit}</td>
+				</tr>
+				<tr>
+					<th>转账金额：</th>
+					<td><input type="text" id="delta" name="delta" value="0.00" />{echo Product::$PriceUnit}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th>转账原因：</th>
+					<td><input type="text" name="reason" value="无" /></td>
+					<td></td>
+				</tr>
+			</table>
+			<button type="button" id="transfer_button">转账</button>
+		</form>
+		<div id="result_list" class="toast_list"></div>
+	</div>
+</div>
+
+{template footer}

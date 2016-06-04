@@ -1,0 +1,71 @@
+{template header}
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=product">商品</a></li>
+	<li>商品列表</li>
+</ol>
+
+<script type="text/javascript">
+$(function(){
+	$('#productlist').editlist({
+		'edit' : '$mod_url&action=edit',
+		'delete' : '$mod_url&action=delete',
+		'attr' : ['name', 'type', 'displayorder', 'hide']
+	});
+});
+</script>
+
+<div class="box">
+	<h1>商品管理</h1>
+	<div class="content">
+		<form id="condition_form" class="quick_search" action="admin.php" method="get">
+			<input type="hidden" name="mod" value="$_GET[mod]" />
+			<dl>
+				<dt>商品名称：</dt>
+				<dd><input type="text" name="productname" /></dd>
+				<dt>商品类型：</dt>
+				<dd>{echo Template::select('type', array('全部') + $product_types, $type)}</dd>
+				<dt>其他选项：</dt>
+				<dd>{echo Template::checkbox('show_hidden', '显示隐藏商品', !empty($show_hidden))}</dd>
+			</dl>
+			<button type="submit">查找</button>
+		</form>
+
+		<div id="productlist" class="list edit_list">
+			<table>
+				<thead>
+					<tr>
+						<td>名称</td>
+						<td>类型</td>
+						<td>显示顺序</td>
+						<td>隐藏</td>
+						<td>操作</td>
+					</tr>
+				</thead>
+				<tbody>
+					<!--{loop $products $p}-->
+					<tr data-primaryvalue="$p[id]">
+						<td>$p[name]</td>
+						<td data-realvalue="$p[type]">{echo Product::Types($p['type'])}</td>
+						<td>$p[displayorder]</td>
+						<td data-realvalue="$p[hide]"><!--{if $p['hide']}-->是<!--{else}-->否<!--{/if}--></td>
+						<td></td>
+					</tr>
+					<!--{/loop}-->
+					<tr>
+						<td><input type="text" /></td>
+						<td>{echo Template::select('', $product_types, $type)}</td>
+						<td><input type="text" /></td>
+						<td>{eval echo Template::select('', array('否', '是'))}</td>
+						<td><button type="button" class="add">添加</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+{echo Template::mpage($pagenum, $page, $limit, $mod_url.'&'.http_build_query($query_string))}
+
+{template footer}

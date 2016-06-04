@@ -1,0 +1,80 @@
+<!--{template header}-->
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=admin">管理员</a></li>
+	<li>编辑管理员</li>
+</ol>
+
+<style type="text/css">
+.permissions h4{
+	margin: 0;
+}
+</style>
+
+<div class="box edit_form">
+	<!--{if $id}-->
+	<h1>编辑管理员权限 - $a[account]</h1>
+	<!--{else}-->
+	<h1>添加新管理员</h1>
+	<!--{/if}-->
+
+	<form class="toast" action="$mod_url&action=edit" method="post">
+	<input type="hidden" id="id" name="id" value="$a[id]" />
+	<table>
+		<tr>
+			<th><label>账号：</label></th>
+			<td><input type="text" id="account" name="account" value="$a[account]" {if $id}readonly="readonly"{/if} /></td>
+		</tr>
+		<tr>
+			<th><label>密码：</label></th>
+			<td><input type="password" id="password" name="password" /></td>
+		</tr>
+		<tr>
+			<th><label>再次确认密码：</label></th>
+			<td><input type="password" id="password2" name="password2" /></td>
+		</tr>
+		<tr>
+			<th><label>姓名：</label></th>
+			<td><input type="text" id="realname" name="realname" value="$a[realname]" /></td>
+		</tr>
+		<tr>
+			<th><label>手机：</label></th>
+			<td><input type="text" id="mobile" name="mobile" value="$a[mobile]" /></td>
+		</tr>
+		<tr>
+			<th><label>昵称：</label></th>
+			<td><input type="text" id="nickname" name="nickname" value="$a[nickname]" /></td>
+		</tr>
+		<tr>
+			<th><label>权限：</label></th>
+			<td>
+			<!--{loop Administrator::$Permissions $permission $v}-->
+				<!--{if !empty($v['children']) && $_G['admin']->hasPermission($permission) && empty($v['alias']) && empty($v['parents'])}-->
+				<dl class="spanlist permissions">
+					<h4><span title="{echo lang('common', 'permission_'.$permission.'_comment')}">{echo Template::checkbox("p[$permission]", lang('common', 'permission_'.$permission), $admin->hasPermission($permission))}</span></h4>
+					<!--{loop $v['children'] $subpermission}-->
+					<span title="{echo lang('common', 'permission_'.$subpermission.'_comment')}">{echo Template::checkbox("p[$subpermission]", lang('common', 'permission_'.$subpermission), $admin->hasPermission($subpermission))}</span>
+					<!--{/loop}-->
+				</dl>
+				<!--{/if}-->
+			<!--{/loop}-->
+			<dl class="spanlist permissions">
+				<!--{loop Administrator::$Permissions $permission $v}-->
+					<!--{if empty($v['children']) && $_G['admin']->hasPermission($permission) && empty($v['alias']) && empty($v['parents'])}-->
+					<span title="{echo lang('common', 'permission_'.$permission.'_comment')}">{echo Template::checkbox("p[$permission]", lang('common', 'permission_'.$permission), $admin->hasPermission($permission))}</span>
+					<!--{/if}-->
+				<!--{/loop}-->
+			</dl>
+			</td>
+		</tr>
+	</table>
+
+	<div class="post_buttons">
+		<button type="submit">确定<!--{echo $id ? '编辑' : '添加'}--></button>
+	</div>
+
+	</form>
+</div>
+
+<!--{template footer}-->

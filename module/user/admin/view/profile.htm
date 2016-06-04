@@ -1,0 +1,89 @@
+<!--{template header}-->
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=user">用户</a></li>
+	<li>详情</li>
+</ol>
+
+<div class="box edit_form">
+	<h1>用户详细信息</h1>
+
+	<table>
+		<tr>
+			<th>昵称：</th>
+			<td>$user[nickname]</td>
+			<td class="tips">通常与微信号昵称或QQ昵称相同</td>
+		</tr>
+		<tr>
+			<th>用户名：</th>
+			<td>$user[account]</td>
+			<td class="tips">用于登录，未设置该项的用户仅能通过QQ或微信登录</td>
+		</tr>
+		<tr>
+			<th>密码：</th>
+			<td><!--{if empty($user['pwmd5'])}-->无<!--{else}-->有<!--{/if}-->登录密码</td>
+		</tr>
+		<!--{if $_G['admin']->hasPermission('user_reset_password') && !empty($user['account'])}-->
+		<tr>
+			<th>重置密码：</th>
+			<td>
+				<form action="$mod_url&action=resetpassword&id=$user[id]" method="post" class="toast quick_search">
+					<input type="text" name="new_password" />
+					<button type="submit">重置</button>
+				</form>
+			</td>
+		</tr>
+		<!--{/if}-->
+		<tr>
+			<th>真实姓名：</th>
+			<td>$user[realname]</td>
+		</tr>
+		<tr>
+			<th>QQ：</th>
+			<td><!--{if !empty($user['qqopenid'])}-->已<!--{else}-->未<!--{/if}-->绑定</td>
+		</tr>
+		<tr>
+			<th>微信公众号登录：</th>
+			<td><!--{if !empty($user['wxopenid'])}-->已<!--{else}-->未<!--{/if}-->绑定</td>
+		</tr>
+		<tr>
+			<th>网站/App微信登录：</th>
+			<td><!--{if !empty($user['wxunionid'])}-->已<!--{else}-->未<!--{/if}-->绑定</td>
+		</tr>
+		<tr>
+			<th>手机：</th>
+			<td>$user[mobile]</td>
+		</tr>
+		<tr>
+			<th>邮箱：</th>
+			<td>$user[email]</td>
+		</tr>
+		<tr>
+			<th>注册时间：</th>
+			<td>{echo rdate($user['regtime'])}</td>
+		</tr>
+		<tr>
+			<th>最后登录时间：</th>
+			<td>{echo rdate($user['logintime'])}</td>
+		</tr>
+		<tr>
+			<th>钱包余额：</th>
+			<td><a href="admin.php?mod=payment:userwallet&userid=$user[id]">$user[wallet] {echo Wallet::$PriceUnit}</a></td>
+		</tr>
+		<!--{if $_G['admin']->hasPermission('user_update_wallet')}-->
+		<tr>
+			<th>系统赠费/扣费：</th>
+			<td>
+				<form action="$mod_url&action=updatewallet&id=$user[id]" method="post" class="toast quick_search">
+					<input type="text" name="wallet_delta" class="number" />
+					<button type="submit">确认</button>
+				</form>
+			</td>
+			<td class="tips">赠费请输入正数，扣费请输入负数</td>
+		</tr>
+		<!--{/if}-->
+	</table>
+</div>
+
+<!--{template footer}-->

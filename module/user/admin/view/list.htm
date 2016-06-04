@@ -1,0 +1,45 @@
+{template header}
+
+<script type="text/javascript" src="./js/datetime.js?$_CONFIG[refversion]"></script>
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="$mod_url">往来单位</a></li>
+	<li>往来单位列表</li>
+</ol>
+
+<div class="box">
+	<h1>往来单位列表</h1>
+
+	<div class="content list">
+		<ul class="headactions">
+			<li><a href="$mod_url&action=add">添加往来单位</a></li>
+		</ul>
+		<table>
+			<thead>
+				<tr>
+					<td>编号</td>
+					<td>名称</td>
+					<td>添加时间</td>
+					<td>订单数量</td>
+					<td>赊销</td>
+				</tr>
+			</thead>
+			<tbody>
+				<!--{loop $user_list $u}-->
+				<tr>
+					<td><a href="admin.php?mod=user&action=profile&id=$u[id]">$u[id]</a></td>
+					<td>$u[nickname]</td>
+					<td>{echo rdate($u['regtime'])}</td>
+					<td><a href="admin.php?mod=order&userid=$u[id]&time_start=&time_end=&tradestate=0">$u[ordernum]</a></td>
+					<td><a href="admin.php?mod=payment:userwallet&userid=$u[id]">$u[wallet]</a></td>
+				</tr>
+				<!--{/loop}-->
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{echo Template::mpage($user_num, $page, $limit, $mod_url.$query_string)}
+
+{template footer}

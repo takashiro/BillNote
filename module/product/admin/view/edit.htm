@@ -1,0 +1,150 @@
+{template header}
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=product">商品</a></li>
+	<li>编辑商品</li>
+</ol>
+
+<script type="text/javascript" src="./3rdparty/spectrum/spectrum.min.js"></script>
+<style type="text/css">
+@import url(./3rdparty/spectrum/spectrum.css);
+</style>
+<script type="text/javascript">
+var mod_url = '$mod_url';
+var product_id = $product[id];
+</script>
+<script type="text/javascript" src="./extension/module/product/admin/view/js/admin_market_edit.js"></script>
+
+<div class="box">
+	<h1>商品管理 - $product[name]</h1>
+	<div class="content edit_form">
+		<form action="###" method="post" enctype="multipart/form-data">
+			<table>
+				<tr><th>名称</th><td><input type="text" name="name" value="$product[name]" /></td></tr>
+				<tr><th>简要介绍</th><td><input type="text" name="briefintro" value="$product[briefintro]" /><span class="tips">显示于商品名称下方</span></td></tr>
+				<tr>
+					<th>图标</th>
+					<td>
+						<!--{if $product['icon']}-->
+						<img src="$product[icon]?{TIMESTAMP}" width="80" /><br />
+						<!--{/if}-->
+						<input type="file" name="icon" />
+					</td>
+				</tr>
+				<tr>
+					<th>实物照片</th>
+					<td>
+						<!--{if $product['photo']}-->
+						<img src="$product[photo]?{TIMESTAMP}" /><br />
+						<!--{/if}-->
+						<input type="file" name="photo" />
+					</td>
+				</tr>
+				<tr><th>介绍</th><td><textarea name="introduction">$product[introduction]</textarea><span class="tips">显示在实物照片下方</span></td></tr>
+				<tr><th>文字颜色</th><td><input type="text" name="text_color" class="color" value="#$product[text_color]" /></td></tr>
+				<tr><th>背景颜色</th><td><input type="text" name="background_color" class="color" value="#$product[background_color]" /></td></tr>
+				<tr><th>图标背景</th><td><input type="text" name="icon_background" class="color" value="#$product[icon_background]" /></td></tr>
+			</table>
+			<div class="post_button">
+				<button type="submit">修改</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="box">
+	<h1>价格管理</h1>
+	<div id="price_list" class="content list edit_list">
+		<table>
+			<thead>
+				<tr>
+					<td>编号</td>
+					<td>分类</td>
+					<td>说明</td>
+					<td colspan="2">价格</td>
+					<td colspan="2">数量</td>
+					<td>库存号</td>
+					<td>显示顺序</td>
+					<td>操作</td>
+				</tr>
+			</thead>
+			<tbody>
+				<!--{loop $prices $p}-->
+				<tr data-primaryvalue="$p[id]">
+					<td>$p[id]</td>
+					<td>$p[subtype]</td>
+					<td>$p[briefintro]</td>
+					<td>$p[price]</td>
+					<td>{echo Product::$PriceUnit}</td>
+					<td>$p[amount]</td>
+					<td data-realvalue="$p[amountunit]">{echo Product::AmountUnits($p['amountunit'])}</td>
+					<td>$p[storageid]</td>
+					<td>$p[displayorder]</td>
+					<td></td>
+				</tr>
+				<!--{/loop}-->
+				<tr>
+					<td></td>
+					<td><input type="text" /></td>
+					<td><input type="text" /></td>
+					<td><input type="text" class="number narrow" value="1" /></td>
+					<td>{echo Product::$PriceUnit}</td>
+					<td><input type="text" class="number narrow" value="1" /></td>
+					<td>{echo Template::select('', Product::AmountUnits())}</td>
+					<td><input type="text" class="number narrow storageid" /></td>
+					<td><input type="text" class="number narrow" /></td>
+					<td><button type="button" class="add">添加</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="notice">
+		<ol>
+			<li>“显示顺序”的数值越小，显示位置越靠后。</li>
+			<li>“分类”连续相同时，在用户界面中自动合并为一条，其中有多个可选价格。</li>
+			<li>“说明”显示在“分类”右侧，只用于前台的界面显示，订单中不可见。</li>
+			<li>“库存”中填写下方库存管理的“库存号”，多个价格可关联至同一个库存。</li>
+		</ol>
+	</div>
+</div>
+
+<div class="box">
+	<h1>库存管理</h1>
+	<div id="storage_list" class="content list edit_list">
+		<table>
+			<thead>
+				<tr>
+					<td>库存号</td>
+					<td>仓库</td>
+					<td>备注</td>
+					<td>库存量</td>
+					<td>模式</td>
+					<td>操作</td>
+				</tr>
+			</thead>
+			<tbody>
+				<!--{loop $storages $p}-->
+				<tr data-primaryvalue="$p[id]">
+					<td>$p[id]</td>
+					<td data-realvalue="$p[warehouseid]">{echo Warehouse::Name($p['warehouseid'])}</td>
+					<td>$p[remark]</td>
+					<td>$p[num]</td>
+					<td data-realvalue="$p[mode]">{echo ProductStorage::$Mode[$p['mode']]}</td>
+					<td></td>
+				</tr>
+				<!--{/loop}-->
+				<tr>
+					<td></td>
+					<td>{echo Template::select('', Warehouse::Names())}</td>
+					<td><input type="text" /></td>
+					<td>0</td>
+					<td>{echo Template::select('', ProductStorage::$Mode, 0)}</td>
+					<td><button type="button" class="add">添加</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{template footer}
