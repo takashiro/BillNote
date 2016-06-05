@@ -1,5 +1,5 @@
 body{
-	font-size: medium;
+	font-size: 14pt;
 	width: 80mm;
 	margin: 0;
 	font-family: 宋体;
@@ -17,7 +17,7 @@ body{
 }
 
 .header h2{
-	font-size: 12pt;
+	font-size: 16pt;
 	margin: 0;
 }
 
