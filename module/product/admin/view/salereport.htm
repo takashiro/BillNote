@@ -1,0 +1,49 @@
+{template header}
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=product">商品</a></li>
+	<li>销售报表</li>
+</ol>
+
+<script type="text/javascript" src="./js/datetime.js"></script>
+
+<div class="box">
+	<h1>销售报表</h1>
+	<div class="content">
+		<form class="quick_search" action="$mod_url" method="post">
+			<dl>
+				<dt>时间：</dt>
+				<dd><input type="text" name="time_start" class="datetime" value="$time_start" /> - <input type="text" name="time_end" class="datetime" value="$time_end" /></dd>
+			</dl>
+			<button type="submit" name="format" value="html">统计</button>
+		</form>
+
+		<div class="list">
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<td>产品名称</td>
+						<td>数量</td>
+						<td>单价</td>
+						<td>总价</td>
+					</tr>
+				</thead>
+				<tbody>
+				<!--{loop $items $p}-->
+					<tr>
+						<th></th>
+						<td>$p[productname]<!--{if !empty($p['subtype'])}-->($p[subtype])<!--{/if}--></td>
+						<td>{$p[amount]}{$p[amountunit]}</td>
+						<td>{echo sprintf('%.2f', $p['unitprice'])}{echo Product::$PriceUnit}</td>
+						<td>{echo sprintf('%.2f', $p['totalprice'])}{echo Product::$PriceUnit}</td>
+					</tr>
+				<!--{/loop}-->
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+{template footer}

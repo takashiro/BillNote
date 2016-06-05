@@ -25,6 +25,7 @@ return array(
 	'module_product:storage' => '库存管理',
 	'module_product:unit' => '商品单位',
 	'module_product:type' => '商品类型',
+	'module_product:salereport' => '销售报表',
 
 	'permission_product' => '商品管理',
 	'permission_product:unit' => '商品单位设置',
