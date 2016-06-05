@@ -116,12 +116,14 @@ class BankAccount extends DBObject{
 		return $error;
 	}
 
-	static public function __on_order_log_add($order, $log){
+	static public function __on_order_log_added($order, $log){
 		if($log['operation'] != Order::StatusChanged || $log['extra'] != Order::Sorted){
 			return;
 		}
 
 		if($order->bankaccountid > 0){
+			global $db;
+
 			$bankaccount = new BankAccount;
 			$bankaccount->id = $order->bankaccountid;
 			$db->query('START TRANSACTION');
