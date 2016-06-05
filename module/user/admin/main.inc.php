@@ -40,7 +40,7 @@ class UserMainModule extends AdminControlPanelModule{
 	public function defaultAction(){
 		extract($GLOBALS, EXTR_SKIP | EXTR_REFS);
 
-		$condition = array();		//SQL
+		$condition = array('deleted=0');		//SQL
 		$query_string = array();	//分页
 
 		//注册时间范围
@@ -206,27 +206,55 @@ class UserMainModule extends AdminControlPanelModule{
 		showmsg('failed_to_modify_wallet', 'back');
 	}
 
-	public function addAction(){
+	public function editAction(){
+		$id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+
 		if($_POST){
 			if(empty($_POST['nickname']))
 				exit('invalid nickname');
 
 			$user = array(
 				'nickname' => trim($_POST['nickname']),
-				'regtime' => TIMESTAMP,
 			);
 
 			global $db;
 			$table = $db->select_table('user');
-			$table->insert($user);
-			$user['id'] = $table->insert_id();
+
+			if($id <= 0){
+				$user['regtime'] = TIMESTAMP;
+				$table->insert($user);
+				$user['id'] = $table->insert_id();
+			}else{
+				$table->update($user, 'id='.$id);
+				$user['id'] = $id;
+			}
 
 			global $mod_url;
 			showmsg('edit_succeed', $mod_url.'&action=profile&id='.$user['id']);
 		}
 
+		if($id > 0){
+			global $db;
+			$table = $db->select_table('user');
+			$u = $table->fetch_first('*', 'id='.$id);
+		}else{
+			$u = array(
+				'nickname' => '',
+			);
+		}
+
 		extract($GLOBALS, EXTR_SKIP | EXTR_REFS);
-		include view('add');
+		include view('edit');
+	}
+
+	public function deleteAction(){
+		$id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+		if($id > 0){
+			global $db;
+			$table = $db->select_table('user');
+			$table->update(array('deleted' => 1),'id='.$id);
+			showmsg('successfully_deleted_a_user', 'refresh');
+		}
 	}
 
 }

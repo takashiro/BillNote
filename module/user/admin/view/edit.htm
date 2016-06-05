@@ -9,17 +9,17 @@
 <div class="box edit_form">
 	<h1>往来单位信息</h1>
 
-	<form action="$mod_url&action=add" method="post">
+	<form action="$mod_url&action=edit&id=$id" method="post">
 		<table>
 			<tr>
 				<th>名称：</th>
-				<td><input name="nickname" /></td>
+				<td><input name="nickname" value="$u[nickname]" /></td>
 				<td class="tips">用于显示在订单列表页</td>
 			</tr>
 		</table>
 
 		<div class="post_buttons">
-			<button type="submit">添加</button>
+			<button type="submit">编辑完成</button>
 		</div>
 	</form>
 </div>

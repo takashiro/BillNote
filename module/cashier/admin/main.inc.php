@@ -71,7 +71,7 @@ class CashierMainModule extends AdminControlPanelModule{
 
 		$table = $db->select_table('user');
 		$users = array();
-		$userlist = $table->fetch_all('*');
+		$userlist = $table->fetch_all('*', 'deleted=0');
 		foreach($userlist as $user){
 			$users[$user['id']] = $user['nickname'];
 		}

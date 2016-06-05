@@ -26,4 +26,6 @@ return array(
 	'user_password_is_successfully_reset' => '成功重置用户密码。',
 	'update_wallet_successfully' => '成功修改该用户钱包！',
 	'failed_to_modify_wallet' => '无法修改该用户钱包，请确认用户是否存在。',
+
+	'successfully_deleted_a_user' => '成功删除该往来单位。',
 );

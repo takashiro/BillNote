@@ -23,6 +23,7 @@
 					<td>添加时间</td>
 					<td>订单数量</td>
 					<td>赊销</td>
+					<td>操作</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -33,6 +34,10 @@
 					<td>{echo rdate($u['regtime'])}</td>
 					<td><a href="admin.php?mod=order&userid=$u[id]&time_start=&time_end=&tradestate=0">$u[ordernum]</a></td>
 					<td><a href="admin.php?mod=payment:userwallet&userid=$u[id]">$u[wallet]</a></td>
+					<td>
+						<a href="$mod_url&action=edit&id=$u[id]">[编辑]</a>
+						<a href="$mod_url&action=delete&id=$u[id]">[删除]</a>
+					</td>
 				</tr>
 				<!--{/loop}-->
 			</tbody>
