@@ -5,7 +5,7 @@ if (!defined('IN_ADMINCP')) exit('access denied');
 class ProductSaleReportModule extends AdminControlPanelModule{
 
 	public function defaultAction(){
-		$condition = array();
+		$condition = array('o.status!='.Order::Canceled);
 
 		if(isset($_POST['time_start'])){
 			$time_start = rstrtotime($_POST['time_start']);
