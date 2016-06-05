@@ -75,7 +75,7 @@ window.close();
 		<tr><th>收件人：</th><td>$order[addressee](电话：$order[mobile])</td></tr>
 		<!--{/if}-->
 		<tr><th>订单号：</th><td>$order[id]</td></tr>
-		<tr><th>付款时间：</th><td><!--{if $order['tradetime']}-->$order[tradetime]<!--{/if}--></td></tr>
+		<tr><th>付款时间：</th><td><!--{if $order['tradetime']}-->{echo rdate($order['tradetime'])}<!--{/if}--></td></tr>
 		<!--{if !empty($order['message'])}-->
 		<tr><th>用户留言：</th><td>$order[message]</td></tr>
 		<!--{/if}-->
