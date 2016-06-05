@@ -7,7 +7,7 @@ return array(
 	'no_storage_need_updating' => '没有库存需要更新。',
 
 	'please_cancel_or_pay_your_previous_order' => '请先【支付】或【取消】您未付款的的订单再下新的订单哦~',
-	'shopping_cart_empty' => '您还没有选购哦，请先把商品放入购物车。',
+	'shopping_cart_empty' => '您不能提交空订单。',
 	'shopping_cart_empty_because_of_item_deleted' => '您选购的商品被别人先下手了QAQ，现在购物车已经空了，重新选购吧QAQ',
 	'please_fill_in_addressee' => '请填写收件人姓名。',
 	'invalid_delivery_address_with_inadquate_components' => '请将收件地址填写完整。',

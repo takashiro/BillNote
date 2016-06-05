@@ -208,13 +208,4 @@ $(function(){
 		var url = $(this).attr('href');
 		window.open(url, 'ticket', 'width=330,status=no,titlebar=no,toolbar=no,location=no,menubar=no', false);
 	});
-
-	var popupticket = location.href.split('popupticket=');
-	if(popupticket.length > 1){
-		popupticket = parseInt(popupticket[1], 10);
-		if(!isNaN(popupticket)){
-			var url = mod_url + '&action=ticket&orderid=' + popupticket;
-			window.open(url, 'ticket', 'width=330,status=no,titlebar=no,toolbar=no,location=no,menubar=no', false);
-		}
-	}
 });

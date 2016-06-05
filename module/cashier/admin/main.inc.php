@@ -189,7 +189,8 @@ class CashierMainModule extends AdminControlPanelModule{
 
 		//显示订单提交结果
 		if($order_succeeded){
-			$print_link = 'admin.php?mod=order&popupticket='.$order->id;
+			global $mod_url;
+			$print_link = $mod_url.'&popupticket='.$order->id;
 			if(!$item_deleted){
 				showmsg('successfully_submitted_order', $print_link);
 			}else{
