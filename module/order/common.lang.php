@@ -23,7 +23,6 @@ takashiro@qq.com
 return array(
 	'module_order' => '订单',
 
-	'module_order:add' => '添加订单',
 	'module_order:scancode' => '扫码处理',
 	'module_order:ticketconfig' => '小票设置',
 
