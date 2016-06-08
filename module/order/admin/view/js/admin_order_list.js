@@ -20,78 +20,16 @@ takashiro@qq.com
 ************************************************************************/
 
 $(function(){
-	$('#orderlist').on('click', '.mark_sorted, .mark_to_delivery_station, .mark_delivering, .mark_in_delivery_station, .mark_received, .mark_rejected', function(e){
+	$('#orderlist').on('click', '.mark_sorted', function(e){
 		var a = $(e.target);
 		var href = a.attr('href');
 		var td = a.parent().parent();
 		$.post(href + '&ajax=1', [], function(data){
 			if(a.hasClass('mark_sorted')){
 				td.html(lang['order_sorted']);
-
-				if(admin.hasPermission('order_to_station')){
-					var button = $('<a></a>');
-
-					button.attr('class', 'mark_to_delivery_station');
-					button.attr('href', href.replace('mark_sorted', 'mark_todp'));
-					button.html('[' + lang['order_to_delivery_station'] + ']');
-
-					var div = $('<div></div>');
-					div.append(button);
-					td.append(div);
-				}
-
 				var tr = td.parent();
 				tr.find('a.delete').remove();
 				tr.find('ul.order_detail').addClass('disabled');
-
-			}else if(a.hasClass('mark_to_delivery_station')){
-				td.html(lang['order_to_delivery_station']);
-
-				if(admin.hasPermission('order_deliver_w')){
-					var button = $('<a></a>');
-
-					if(td.data('deliverymethod') == Order.StationDelivery){
-						button.attr('class', 'mark_in_delivery_station');
-						button.attr('href', href.replace('mark_todp', 'mark_indp'));
-						button.html('[' + lang['order_in_delivery_station'] + ']');
-					}else{
-						button.attr('class', 'mark_delivering');
-						button.attr('href', href.replace('mark_todp', 'mark_delivering'));
-						button.html('[' + lang['order_delivering'] + ']');
-					}
-
-					var div = $('<div></div>');
-					div.append(button);
-					td.append(div);
-				}
-
-			}else if(a.hasClass('mark_delivering') || a.hasClass('mark_in_delivery_station')){
-				td.html(a.hasClass('mark_delivering') ? lang['order_delivering'] : lang['order_in_delivery_station']);
-
-				if(admin.hasPermission('order_deliver_w')){
-					var data = {};
-					data['mark_received'] = '[' + lang['order_received'] + ']';
-					data['mark_rejected'] = '[' + lang['order_rejected'] + ']';
-
-					for(var action in data){
-						var button = $('<a></a>');
-						button.attr('class', action);
-						if(a.hasClass('mark_delivering')){
-							button.attr('href', href.replace('mark_delivering', action));
-						}else{
-							button.attr('href', href.replace('mark_indp', action));
-						}
-						button.html(data[action]);
-
-						var div = $('<div></div>');
-						div.append(button);
-						td.append(div);
-					}
-				}
-			}else if(a.hasClass('mark_received')){
-				td.html(lang['order_received']);
-			}else if(a.hasClass('mark_rejected')){
-				td.html(lang['order_rejected']);
 			}
 		});
 

@@ -64,8 +64,6 @@ class OrderMainModule extends AdminControlPanelModule{
 				unset($display_status[Order::Canceled]);
 			}
 
-			$deliverymethod = -1;
-
 			//过滤掉无权限查看的订单
 			foreach($display_status as $statusid => $value){
 				if(!isset($available_status[$statusid])){
@@ -90,7 +88,6 @@ class OrderMainModule extends AdminControlPanelModule{
 
 				$_REQUEST['tradestate'] = 0;
 				$_REQUEST['time_start'] = $_REQUEST['time_end'] = '';
-				unset($_REQUEST['deliverymethod']);
 			}
 
 			//根据付款状态查询订单
@@ -287,9 +284,6 @@ class OrderMainModule extends AdminControlPanelModule{
 					if(isset($$var)){
 						$query_string[$var] = $$var;
 					}
-				}
-				if($deliverymethod != -1){
-					$query_string['deliverymethod'] = $deliverymethod;
 				}
 
 				$query_string = http_build_query($query_string);
