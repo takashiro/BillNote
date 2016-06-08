@@ -24,7 +24,7 @@ class ProductSaleReportModule extends AdminControlPanelModule{
 		$condition = $condition ? implode(' AND ', $condition) : '1';
 
 		global $db, $tpre;
-		$items = $db->fetch_all("SELECT SUM(d.amount) AS amount,d.amountunit,d.productid,d.productname,d.subtype,(d.subtotal/d.amount/d.number) AS unitprice
+		$items = $db->fetch_all("SELECT SUM(d.amount * d.number) AS amount,d.amountunit,d.productid,d.productname,d.subtype,(d.subtotal/d.amount/d.number) AS unitprice
 			FROM {$tpre}orderdetail d
 				LEFT JOIN {$tpre}order o ON o.id=d.orderid
 			WHERE $condition
