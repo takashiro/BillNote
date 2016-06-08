@@ -26,8 +26,8 @@
 						<th></th>
 						<td>产品名称</td>
 						<td>数量</td>
-						<td>单价</td>
-						<td>总价</td>
+						<td>单价（{echo Product::$PriceUnit}）</td>
+						<td>总价（{echo Product::$PriceUnit}）</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -36,8 +36,8 @@
 						<th></th>
 						<td>$p[productname]<!--{if !empty($p['subtype'])}-->($p[subtype])<!--{/if}--></td>
 						<td>{$p[amount]}{$p[amountunit]}</td>
-						<td>{echo sprintf('%.2f', $p['unitprice'])}{echo Product::$PriceUnit}</td>
-						<td>{echo sprintf('%.2f', $p['totalprice'])}{echo Product::$PriceUnit}</td>
+						<td>{echo sprintf('%.2f', $p['unitprice'])}</td>
+						<td>{echo sprintf('%.2f', $p['totalprice'])}</td>
 					</tr>
 				<!--{/loop}-->
 				</tbody>
