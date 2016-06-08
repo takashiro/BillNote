@@ -91,6 +91,7 @@ div.datetime{font-size: 9pt;}
 						<td>状态</td>
 						<td>支付方式</td>
 						<td>管理员</td>
+						<td>下单时间</td>
 						<td width="50">操作</td>
 						<td>留言</td>
 					</tr>
@@ -118,7 +119,7 @@ div.datetime{font-size: 9pt;}
 							</ul>
 						</td>
 						<td><span class="totalprice">$o[totalprice]</span>{echo Product::$PriceUnit}</td>
-						<td data-deliverymethod="$o[deliverymethod]">
+						<td>
 							{echo Order::$Status[$o['status']]}
 							<!--{if $o['status'] == Order::Unsorted}-->
 								<div><a class="mark_sorted" href="{$mod_url}&action=mark_sorted&orderid=$o[id]" title="将订单标记为已交付">[已交付]</a></div>
@@ -126,6 +127,7 @@ div.datetime{font-size: 9pt;}
 						</td>
 						<td>{echo Wallet::$PaymentMethod[$o['paymentmethod']]}</td>
 						<td><!--{if !empty($o['adminid'])}--><a href="$mod_url&time_start=&time_end=&adminid=$o[adminid]">$o[adminname]</a><!--{/if}--></td>
+						<td>{echo rdate($o['dateline'])}</td>
 						<td>
 							<a class="print" href="$mod_url&action=ticket&orderid=$o[id]" target="_blank">[打印]</a>
 							<!--{if $o['status'] == Order::Unsorted}-->
