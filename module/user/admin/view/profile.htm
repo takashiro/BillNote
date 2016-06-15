@@ -68,7 +68,7 @@
 			<td>{echo rdate($user['logintime'])}</td>
 		</tr>
 		<tr>
-			<th>钱包余额：</th>
+			<th>余额：</th>
 			<td><a href="admin.php?mod=payment:userwallet&userid=$user[id]">$user[wallet] {echo Wallet::$PriceUnit}</a></td>
 		</tr>
 		<!--{if $_G['admin']->hasPermission('user_update_wallet')}-->
