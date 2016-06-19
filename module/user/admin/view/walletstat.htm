@@ -1,0 +1,52 @@
+{template header}
+
+<script type="text/javascript" src="./js/datetime.js?$_CONFIG[refversion]"></script>
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=user">往来单位</a></li>
+	<li>财务报表</li>
+</ol>
+
+<div class="box">
+	<h1>往来单位财务报表</h1>
+
+	<form id="condition_form" class="quick_search" action="$mod_url" method="post">
+		<dl>
+			<dt>时间：</dt>
+			<dd><input type="text" name="time_start" value="$time_start" class="datetime" /> - <input type="text" name="time_end" value="$time_end" class="datetime" /></dd>
+		</dl>
+		<div class="post_buttons">
+			<button type="submit">查询</button>
+		</div>
+	</form>
+
+	<div class="content list">
+		<table>
+			<thead>
+				<tr>
+					<th></th>
+					<td>往来单位</td>
+					<td>期初余额({echo Product::$PriceUnit})</td>
+					<td>期末余额({echo Product::$PriceUnit})</td>
+					<td>变化量({echo Product::$PriceUnit})</td>
+					<td>操作</td>
+				</tr>
+			</thead>
+			<tbody>
+				<!--{loop $statlist $l}-->
+				<tr>
+					<th></th>
+					<td>$l[nickname]</td>
+					<td>$l[initvalue]</td>
+					<td>$l[endvalue]</td>
+					<td>{echo $l['endvalue'] - $l['initvalue']}</td>
+					<td><a href="admin.php?mod=payment:userwallet&userid=$l[uid]&time_start=$time_start&time_end=$time_end" target="_blank">[明细]</a></td>
+				</tr>
+			<!--{/loop}-->
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{template footer}
