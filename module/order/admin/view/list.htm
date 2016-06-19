@@ -92,6 +92,7 @@ div.datetime{font-size: 9pt;}
 						<td>价格</td>
 						<td>状态</td>
 						<td>支付方式</td>
+						<td>收款账户</td>
 						<td>管理员</td>
 						<td>下单时间</td>
 						<td width="50">操作</td>
@@ -128,6 +129,7 @@ div.datetime{font-size: 9pt;}
 							<!--{/if}-->
 						</td>
 						<td>{echo Wallet::$PaymentMethod[$o['paymentmethod']]}</td>
+						<td>$o[bankaccount]</td>
 						<td><!--{if !empty($o['adminid'])}--><a href="$mod_url&time_start=&time_end=&adminid=$o[adminid]">$o[adminname]</a><!--{/if}--></td>
 						<td>{echo rdate($o['dateline'])}</td>
 						<td>

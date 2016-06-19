@@ -198,11 +198,13 @@ class OrderMainModule extends AdminControlPanelModule{
 				}
 
 				$confirmed_status = Order::Sorted;
-				$orders = $db->fetch_all("SELECT o.*,u.nickname,u.account, IF(a.realname!='',a.realname,a.account) AS adminname,
+				$orders = $db->fetch_all("SELECT o.*,u.nickname,u.account, b.remark AS bankaccount,
+						IF(a.realname!='',a.realname,a.account) AS adminname,
 						(SELECT COUNT(*) FROM {$tpre}order WHERE userid=o.userid AND status=$confirmed_status) AS ordernum
 					FROM {$tpre}order o
 						LEFT JOIN {$tpre}user u ON u.id=o.userid
 						LEFT JOIN {$tpre}administrator a ON a.id=o.adminid
+						LEFT JOIN {$tpre}bankaccount b ON b.id=o.bankaccountid
 					WHERE $condition
 					ORDER BY o.status,o.tradetime
 					$limit_subsql");
