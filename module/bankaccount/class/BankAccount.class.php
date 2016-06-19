@@ -33,6 +33,7 @@ class BankAccount extends DBObject{
 	const OPERATION_WITHDRAW = 3;
 	const OPERATION_DEPOSIT = 4;
 	const OPERATION_ORDER_OUTCOME = 5;
+	const OPERATION_REPAY = 6;
 
 	const OPERATOR_SYSTEM = 0;
 

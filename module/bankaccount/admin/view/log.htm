@@ -39,6 +39,10 @@
 					提款
 					<!--{elseif $l['operation'] == BankAccount::OPERATION_DEPOSIT}-->
 					注资
+					<!--{elseif $l['operation'] == BankAccount::OPERATION_ORDER_OUTCOME}-->
+					订单取消
+					<!--{elseif $l['operation'] == BankAccount::OPERATION_REPAY}-->
+					还款
 					<!--{else}-->
 					未知
 					<!--{/if}-->

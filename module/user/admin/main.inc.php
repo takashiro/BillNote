@@ -166,6 +166,16 @@ class UserMainModule extends AdminControlPanelModule{
 			showmsg('user_does_not_exist');
 
 		extract($GLOBALS, EXTR_REFS | EXTR_SKIP);
+
+		if($_G['admin']->hasPermission('user_update_wallet')){
+			$bankaccounts = array();
+			$table = $db->select_table('bankaccount');
+			$bankaccount_list = $table->fetch_all('id,remark');
+			foreach($bankaccount_list as $a){
+				$bankaccounts[$a['id']] = $a['remark'];
+			}
+		}
+
 		include view('profile');
 	}
 
@@ -200,6 +210,16 @@ class UserMainModule extends AdminControlPanelModule{
 			);
 			$table = $db->select_table('userwalletlog');
 			$table->insert($log);
+
+			$bankaccountid = isset($_POST['bankaccountid']) ? intval($_POST['bankaccountid']) : 0;
+			if($bankaccountid > 0){
+				$bankaccount = new BankAccount;
+				$bankaccount->id = $bankaccountid;
+				if($bankaccount->updateAmount($delta)){
+					$bankaccount->addLog(BankAccount::OPERATION_REPAY, $delta, '', $_G['admin']->id);
+				}
+			}
+
 			showmsg('update_wallet_successfully', 'refresh');
 		}
 

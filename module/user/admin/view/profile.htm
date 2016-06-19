@@ -68,14 +68,15 @@
 			<td>{echo rdate($user['logintime'])}</td>
 		</tr>
 		<tr>
-			<th>余额：</th>
+			<th>交易记录：</th>
 			<td><a href="admin.php?mod=payment:userwallet&userid=$user[id]">$user[wallet] {echo Wallet::$PriceUnit}</a></td>
 		</tr>
 		<!--{if $_G['admin']->hasPermission('user_update_wallet')}-->
 		<tr>
-			<th>系统赠费/扣费：</th>
+			<th>还款：</th>
 			<td>
 				<form action="$mod_url&action=updatewallet&id=$user[id]" method="post" class="toast quick_search">
+					{echo Template::select('bankaccountid', $bankaccounts)}
 					<input type="text" name="wallet_delta" class="number" />
 					<button type="submit">确认</button>
 				</form>
