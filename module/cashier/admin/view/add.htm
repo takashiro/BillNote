@@ -26,7 +26,16 @@ $(function(){
 		'noedit' : true,
 		'submit_url' : '{$mod_url}&action=order',
 		'attr' : ['', 'productid', 'price', 'number', 'amountunit', 'subtotal', 'warehouseid', 'storagenum'],
-		'buttons' : {'delete':'删除'}
+		'buttons' : {'delete':'删除'},
+		'onSubmit' : function(){
+			var userid = $('#userid').val();
+			userid = parseInt(userid, 10);
+			if(isNaN(userid) || userid <= 0){
+				makeToast('请先填写往来单位。');
+				return true;
+			}
+			return false;
+		}
 	});
 
 	$('#product_input').autocomplete({
@@ -36,11 +45,23 @@ $(function(){
 			return suggestion.display;
 		},
 
-		onSelect: function(suggestion){
+		onSelect : function(suggestion){
 			$(this).data('realvalue', suggestion.data);
 			$(this).val(suggestion.display);
 			$(this).change();
 	    }
+    });
+
+    $('#userid_input').autocomplete({
+		serviceUrl : 'admin.php?mod=user&action=suggest',
+
+		formatResult : function(suggestion, currentValue){
+			return suggestion.value;
+		},
+
+		onSelect : function(suggestion){
+			$('#userid').val(suggestion.data);
+		}
     });
 });
 </script>
@@ -77,7 +98,7 @@ ul.header_input li{
 	</div>
 
 	<ul class="header_input editlist_input">
-		<li>往来单位：{echo Template::select('userid', $users)}</li>
+		<li>往来单位：<input type="hidden" name="userid" id="userid" /><input type="text" id="userid_input" /></li>
 		<li>支付方式：{echo Template::select('paymentmethod', array(Wallet::ViaCash => '现金', Wallet::ViaWallet => '赊销'), 0)}</li>
 		<li>收款账户：<select id="bankaccountid" name="bankaccountid"></select></li>
 	</ul>

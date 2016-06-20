@@ -237,6 +237,10 @@ class UserMainModule extends AdminControlPanelModule{
 				'nickname' => trim($_POST['nickname']),
 			);
 
+			if($user['nickname']){
+				$user['nicknameinitial'] = Hanzi::ToCapital($user['nickname']);
+			}
+
 			global $db;
 			$table = $db->select_table('user');
 
@@ -275,6 +279,32 @@ class UserMainModule extends AdminControlPanelModule{
 			$table->update(array('deleted' => 1),'id='.$id);
 			showmsg('successfully_deleted_a_user', 'refresh');
 		}
+	}
+
+	public function suggestAction(){
+		$query = isset($_GET['query']) ? trim($_GET['query']) : '';
+		$query = addslashes($query);
+
+		$result = array(
+			'query' => $query,
+			'suggestions' => array(),
+		);
+
+		if(!empty($query)){
+			global $db;
+			$table = $db->select_table('user');
+			$users = $table->fetch_all('id,nickname', 'nicknameinitial LIKE \''.$query.'%\'');
+			foreach($users as $u){
+				$result['suggestions'][] = array(
+					'value' => $u['nickname'],
+					'data' => intval($u['id']),
+				);
+			}
+			unset($users);
+		}
+
+		echo json_encode($result);
+		exit;
 	}
 
 }
