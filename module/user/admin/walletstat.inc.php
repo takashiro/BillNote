@@ -8,8 +8,8 @@ class UserWalletStatModule extends AdminControlPanelModule{
 		global $db, $tpre;
 
 		if($_POST){
-			$time_start = isset($_POST['time_start']) ? strtotime($_POST['time_start']) : '';
-			$time_end = isset($_POST['time_end']) ? strtotime($_POST['time_end']) : '';
+			$time_start = isset($_POST['time_start']) ? rstrtotime($_POST['time_start']) : '';
+			$time_end = isset($_POST['time_end']) ? rstrtotime($_POST['time_end']) : '';
 
 			$initvalues = array();
 			$query = $db->query("SELECT l.uid,u.nickname,SUM(l.delta) AS initvalue
@@ -34,8 +34,8 @@ class UserWalletStatModule extends AdminControlPanelModule{
 			}
 			unset($l, $initvalues);
 
-			$time_start = rdate($time_start);
-			$time_end = rdate($time_end);
+			$time_start = rdate($time_start, 'Y-m-d H:i');
+			$time_end = rdate($time_end, 'Y-m-d H:i');
 		}else{
 			$statlist = array();
 			$time_start = $time_end = '';
