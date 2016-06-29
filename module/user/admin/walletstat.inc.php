@@ -25,7 +25,9 @@ class UserWalletStatModule extends AdminControlPanelModule{
 			$statlist = $db->fetch_all("SELECT l.uid,u.nickname,SUM(l.delta) AS endvalue
 				FROM {$tpre}userwalletlog l
 					LEFT JOIN {$tpre}user u ON u.id=l.uid
-				WHERE dateline<=$time_end
+				WHERE dateline<=$time_end AND EXISTS (SELECT uid
+					FROM {$tpre}userwalletlog
+					WHERE dateline>=$time_start AND dateline<=$time_end LIMIT 1)
 				GROUP BY uid");
 			foreach($statlist as &$l){
 				$l['initvalue'] = isset($initvalues[$l['uid']]) ? $initvalues[$l['uid']] : 0.0;
