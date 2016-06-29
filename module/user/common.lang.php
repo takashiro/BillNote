@@ -26,4 +26,5 @@ return array(
 
 	'permission_user' => '往来单位管理',
 	'permission_user_update_wallet' => '管理赊销账户',
+	'permission_user:walletstat' => '查看往来单位财务报表',
 );
