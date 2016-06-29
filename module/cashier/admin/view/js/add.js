@@ -54,7 +54,7 @@ $(function(){
 		var total_price = 0;
 		$('#product_list tbody tr:not(:last-child)').each(function(){
 			var tds = $(this).children('td');
-			var subtotal = tds.eq(5);
+			var subtotal = tds.eq(4);
 			var subtotal = parseFloat(subtotal.text());
 			if(!isNaN(subtotal)){
 				total_price += subtotal;
