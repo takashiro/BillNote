@@ -40,13 +40,33 @@ $(function(){
 			makeToast(result);
 		}, 'json');
 	});
+
+	$('#userid_input').autocomplete({
+		serviceUrl : 'admin.php?mod=user&action=suggest',
+
+		formatResult : function(suggestion, currentValue){
+			return suggestion.value;
+		},
+
+		onSelect : function(suggestion){
+			$('#userid').val(suggestion.data);
+		}
+    });
 });
 </script>
 <script type="text/javascript" src="./js/datetime.js?$_CONFIG[refversion]"></script>
 <script type="text/javascript" src="./extension/module/order/admin/view/js/admin_order_list.js?$_CONFIG[refversion]"></script>
+<script type="text/javascript" src="3rdparty/jquery.autocomplete/jquery.autocomplete.min.js?$_CONFIG[refversion]"></script>
 <style type="text/css">
 #orderlist{font-size: 10pt;}
 div.datetime{font-size: 9pt;}
+
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 </style>
 
 <div class="box">
@@ -69,6 +89,12 @@ div.datetime{font-size: 9pt;}
 				<dd><input type="text" name="time_start" class="datetime" value="$time_start" /> - <input type="text" name="time_end" class="datetime" value="$time_end" /></dd>
 				<dt>统计：</dt>
 				<dd>{echo Template::checkbox('stat[statonly]', '仅统计', !empty($stat['statonly']))} {echo Template::checkbox('stat[item]', '物品', !empty($stat['item']))} {echo Template::checkbox('stat[totalprice]', '总价格', !empty($stat['totalprice']))}</dd>
+			</dl>
+			<dl>
+				<dt>往来单位：</dt>
+				<dd><input type="hidden" id="userid" name="userid" /><input type="text" id="userid_input" name="userid_input" /></dd>
+				<dt>支付方式：</dt>
+				<dd>{echo Template::select('paymentmethod', Wallet::$PaymentMethod)}</dd>
 			</dl>
 			<div class="post_buttons">
 				<button type="submit" name="format" value="html">查找</button>

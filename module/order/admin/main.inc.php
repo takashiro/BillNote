@@ -90,6 +90,12 @@ class OrderMainModule extends AdminControlPanelModule{
 				$_REQUEST['time_start'] = $_REQUEST['time_end'] = '';
 			}
 
+			//根据支付方式过滤订单
+			if(isset($_REQUEST['paymentmethod'])) {
+				$paymentmethod = intval($_REQUEST['paymentmethod']);
+				$condition[] = 'o.paymentmethod='.$paymentmethod;
+			}
+
 			//根据付款状态查询订单
 			if(!isset($_REQUEST['tradestate'])){
 				$tradestate = Wallet::TradeSuccess;
@@ -281,6 +287,7 @@ class OrderMainModule extends AdminControlPanelModule{
 					'userid',
 					'adminid',
 					'tradestate',
+					'paymentmethod',
 				);
 				foreach($vars as $var){
 					if(isset($$var)){
