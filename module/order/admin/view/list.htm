@@ -94,7 +94,7 @@ div.datetime{font-size: 9pt;}
 				<dt>往来单位：</dt>
 				<dd><input type="hidden" id="userid" name="userid" /><input type="text" id="userid_input" name="userid_input" /></dd>
 				<dt>支付方式：</dt>
-				<dd>{echo Template::select('paymentmethod', Wallet::$PaymentMethod)}</dd>
+				<dd>{echo Template::select('paymentmethod', array(-1 => '') + Wallet::$PaymentMethod)}</dd>
 			</dl>
 			<div class="post_buttons">
 				<button type="submit" name="format" value="html">查找</button>
