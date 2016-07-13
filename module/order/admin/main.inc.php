@@ -93,7 +93,17 @@ class OrderMainModule extends AdminControlPanelModule{
 			//根据支付方式过滤订单
 			if(isset($_REQUEST['paymentmethod'])) {
 				$paymentmethod = intval($_REQUEST['paymentmethod']);
-				$condition[] = 'o.paymentmethod='.$paymentmethod;
+				if($paymentmethod >= 0){
+					$condition[] = 'o.paymentmethod='.$paymentmethod;
+				}
+			}
+
+			//根据收款账户过滤订单
+			if(isset($_REQUEST['bankaccountid'])){
+				$bankaccountid = intval($_REQUEST['bankaccountid']);
+				if($bankaccountid > 0){
+					$condition[] = '.o.bankaccountid='.$bankaccountid;
+				}
 			}
 
 			//根据付款状态查询订单
@@ -288,6 +298,7 @@ class OrderMainModule extends AdminControlPanelModule{
 					'adminid',
 					'tradestate',
 					'paymentmethod',
+					'bankaccountid',
 				);
 				foreach($vars as $var){
 					if(isset($$var)){
@@ -296,6 +307,12 @@ class OrderMainModule extends AdminControlPanelModule{
 				}
 
 				$query_string = http_build_query($query_string);
+
+				$bankaccounts = array(0 => '');
+				$query = $db->query("SELECT id,remark FROM {$tpre}bankaccount");
+				while($row = $query->fetch_row()){
+					$bankaccounts[$row[0]] = $row[1];
+				}
 
 				include view('list');
 			}else{
