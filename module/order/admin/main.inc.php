@@ -163,7 +163,7 @@ class OrderMainModule extends AdminControlPanelModule{
 			}
 
 			//根据管理员ID查询订单
-			if(!empty($_REQUEST['admin'])){
+			if(!empty($_REQUEST['adminid'])){
 				$adminid = intval($_REQUEST['adminid']);
 				$condition[] = 'o.adminid='.$adminid;
 			}else{
