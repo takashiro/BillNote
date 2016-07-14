@@ -1,6 +1,26 @@
 {template header}
 
 <script type="text/javascript" src="./js/datetime.js?$_CONFIG[refversion]"></script>
+<script type="text/javascript" src="3rdparty/jquery.autocomplete/jquery.autocomplete.min.js?$_CONFIG[refversion]"></script>
+<style type="text/css">
+@import url('3rdparty/jquery.autocomplete/jquery.autocomplete.css?$_CONFIG[refversion]');
+</style>
+
+<script>
+$(function(){
+	$('#nickname').autocomplete({
+		serviceUrl : 'admin.php?mod=user&action=suggest',
+
+		formatResult : function(suggestion, currentValue){
+			return suggestion.value;
+		},
+
+		onSelect : function(suggestion){
+			location.href = 'admin.php?mod=user&action=profile&id=' + suggestion.data;
+		}
+	});
+});
+</script>
 
 <ol class="nav">
 	<li><a href="admin.php">管理面板</a></li>
@@ -12,6 +32,15 @@
 	<h1>往来单位列表</h1>
 
 	<div class="content list">
+		<form id="condition_form" class="quick_search" action="admin.php" method="get">
+			<input type="hidden" name="mod" value="$mod" />
+			<dl>
+				<dt>往来单位：</dt>
+				<dd><input type="text" id="nickname" name="nickname" /></dd>
+			</dl>
+			<button type="submit" name="format" value="html">查找</button>
+		</form>
+
 		<ul class="headactions">
 			<li><a href="$mod_url&action=edit">添加往来单位</a></li>
 		</ul>

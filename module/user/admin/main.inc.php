@@ -93,6 +93,12 @@ class UserMainModule extends AdminControlPanelModule{
 			$query_string[] = 'ordernum_max='.$ordernum_max;
 		}
 
+		//根据用户名
+		if(isset($_REQUEST['nickname'])){
+			$nickname = addslashes($_REQUEST['nickname']);
+			$condition[] = '(nickname LIKE \'%'.$nickname.'%\' OR nicknameinitial LIKE \'%'.$nickname.'%\')';
+		}
+
 		//生成条件子句
 		if($condition){
 			$condition = implode(' AND ', $condition);
