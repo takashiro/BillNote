@@ -35,7 +35,6 @@
 $(function(){
 	$('#print_button').click(function(){
 		$('#print_button').hide();
-		window.print();
 
 		{if !empty($_GET['auto_receive'])}
 		var orderids = [
@@ -47,12 +46,19 @@ $(function(){
 		orderids.shift();
 
 		$.post('{$mod_url}&mark_received=1', {'orderids' : orderids}, function(){
+			window.print();
 			window.close();
 		});
 		{else}
+		window.print();
 		window.close();
 		{/if}
 	});
+
+
+	setTimeout(function(){
+		$('#print_button').click();
+	}, 500);
 });
 </script>
 <button id="print_button">确认打印</button>
