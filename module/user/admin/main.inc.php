@@ -257,11 +257,11 @@ class UserMainModule extends AdminControlPanelModule{
 
 			if($user['nickname']){
 				$table = $db->select_table('useracronym');
-				$table->delete('uid='.$user['id']);
+				$table->delete('id='.$user['id']);
 				$acronyms = Hanzi::ToAcronym($user['nickname']);
 				foreach($acronyms as $acronym){
 					$row = array(
-						'uid' => $user['id'],
+						'id' => $user['id'],
 						'nickname' => $acronym,
 					);
 					$table->insert($row);
