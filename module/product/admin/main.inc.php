@@ -229,6 +229,34 @@ class ProductMainModule extends AdminControlPanelModule{
 		}
 		return $product;
 	}
+
+	public function suggestAction(){
+		$query = isset($_GET['query']) ? trim($_GET['query']) : '';
+		$query = addslashes($query);
+
+		$result = array(
+			'query' => $query,
+			'suggestions' => array(),
+		);
+
+		if(!empty($query)){
+			global $db, $tpre;
+			$products = $db->fetch_all("SELECT id,name
+				FROM {$tpre}product
+				WHERE (name LIKE '$query%'
+						OR id IN (SELECT id FROM {$tpre}productacronym WHERE name LIKE '$query%'))");
+			foreach($products as $p){
+				$result['suggestions'][] = array(
+					'value' => $p['name'],
+					'data' => intval($p['id']),
+				);
+			}
+			unset($users);
+		}
+
+		echo json_encode($result);
+		exit;
+	}
 }
 
 ?>

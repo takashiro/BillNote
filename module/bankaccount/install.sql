@@ -2,9 +2,9 @@
 DROP TABLE IF EXISTS `pre_bankaccount`;
 CREATE TABLE IF NOT EXISTS `pre_bankaccount` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `remark` varchar(50) NOT NULL,
-  `amount` decimal(9,2) NOT NULL,
-  `orderpaymentmethod` tinyint(4) NOT NULL,
+  `remark` varchar(50) NOT NULL DEFAULT '',
+  `amount` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `orderpaymentmethod` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
