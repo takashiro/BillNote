@@ -96,6 +96,8 @@ class OrderMainModule extends AdminControlPanelModule{
 				if($paymentmethod >= 0){
 					$condition[] = 'o.paymentmethod='.$paymentmethod;
 				}
+			}else{
+				$paymentmethod = null;
 			}
 
 			//根据收款账户过滤订单
@@ -104,6 +106,8 @@ class OrderMainModule extends AdminControlPanelModule{
 				if($bankaccountid > 0){
 					$condition[] = '.o.bankaccountid='.$bankaccountid;
 				}
+			}else{
+				$bankaccountid = null;
 			}
 
 			//根据付款状态查询订单
