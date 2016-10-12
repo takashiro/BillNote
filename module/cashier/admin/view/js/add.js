@@ -43,6 +43,17 @@ $(function(){
 		}
     });
 
+	$.get('admin.php?mod=user&action=suggest', {'query' : '普通现场销售'}, function(response){
+		var suggestions = response.suggestions;
+		if (suggestions.length > 0){
+			var input = $('#userid_input');
+			if (input.val() == ''){
+				input.val(suggestions[0].value);
+				$('#userid').val(suggestions[0].data);
+			}
+		}
+	}, 'json');
+
 	var warehouse_options = $('.warehouse_input select').html();
 	$('#product_list').on('change', '.product_input', function(){
 		var name_select = $(this);
