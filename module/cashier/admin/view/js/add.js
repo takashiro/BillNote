@@ -155,8 +155,14 @@ $(function(){
 	});
 
 	$('#product_list').on('click', 'button.add', function(){
-		var td = $('#product_list table tbody tr:last-child td:first');
+		var tr = $('#product_list table tbody tr:last-child');
+		var td = tr.children().eq(0);
 		td.find('input').focus();
+		var select = tr.find('select');
+		select.each(function(){
+			var select = $(this);
+			select.val(select.children().eq(0).attr('value'));
+		});
 	});
 
 	$('.product_type_input select').change();
