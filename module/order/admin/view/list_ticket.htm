@@ -72,39 +72,31 @@ window.close();
 <!--{loop $orders $order}-->
 <div class="header">
 	<h2>$_CONFIG[sitename]提货单</h2>
-	<div class="tips">$ticketconfig[extrainfo]</div>
+	<div class="tips">
+		<p>盖章有效，破损作废</p>
+		<!--{if $ticketconfig['extrainfo']}--><p>$ticketconfig[extrainfo]</p><!--{/if}-->
+	</div>
 </div>
 
 <div class="main">
-	<table class="info">
-		<!--{if !empty($order['addressee'])}-->
-		<tr><th>收件人：</th><td>$order[addressee](电话：$order[mobile])</td></tr>
-		<!--{/if}-->
-		<tr><th>订单号：</th><td>$order[id]</td></tr>
-		<tr><th>付款时间：</th><td><!--{if $order['tradetime']}-->{echo rdate($order['tradetime'])}<!--{/if}--></td></tr>
-		<!--{if !empty($order['message'])}-->
-		<tr><th>用户留言：</th><td>$order[message]</td></tr>
-		<!--{/if}-->
-		<tr><th>总金额：</th><td>{$order[totalprice]}{echo Product::$PriceUnit}</td></tr>
-		<tr>
-			<th>付款状态：</th>
-			<td>
-				{echo Wallet::$PaymentMethod[$order['paymentmethod']]}
-				<!--{if $order['tradestate']}-->({echo Wallet::$TradeState[$order['tradestate']]})<!--{elseif $order['paymentmethod'] != Wallet::ViaCash}-->(等待付款)<!--{/if}-->
-			</td>
-		</tr>
-	</table>
+	<dl class="info">
+		<dt>时间：</dt><dd>$order[dateline]</dd>
+		<dt>操作员：</dt><dd>{echo $_G['admin']->realname ? $_G['admin']->realname : $_G['admin']->account}</dd>
+		<dt>订单号：</dt><dd>$order[id]</dd>
+		<dt>往来单位：</dt><dd><!--{if !empty($order['nickname'])}-->$order[nickname]<!--{elseif !empty($order['account'])}-->$order[account]<!--{else}-->$order[userid]<!--{/if}--></dd>
+	</ul>
 
 	<table class="order_detail">
 		<thead>
-			<tr><td>商品</td><td class="number">数量</td><td>小计</td></tr>
+			<tr><td>商品</td><td class="number">数量</td><td>单价({echo Product::$PriceUnit})</td><td>小计({echo Product::$PriceUnit})</td></tr>
 		</thead>
 		<tbody>
 		<!--{loop $order['detail'] $d}-->
 			<tr>
 				<td><!--{if $d['state'] == 1}-->[缺货]<!--{/if}-->$d[productname]<!--{if !empty($d['subtype'])}-->($d[subtype])<!--{/if}--></td>
 				<td>{echo $d['amount'] * $d['number']} $d[amountunit]</td>
-				<td>{$d['subtotal']}{echo Product::$PriceUnit}</td>
+				<td>{echo sprintf('%.2f', $d['subtotal'] / $d['amount'] / $d['number'])}</td>
+				<td>{$d['subtotal']}</td>
 			</tr>
 		<!--{/loop}-->
 		</tbody>

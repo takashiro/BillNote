@@ -1,5 +1,5 @@
 body{
-	font-size: 14pt;
+	font-size: 11pt;
 	width: 80mm;
 	margin: 0;
 	font-family: 宋体;
@@ -29,9 +29,21 @@ table th{
 	text-align: right;
 }
 
-table.info th{
-	width: 6em;
+dl.info{
+	padding: 0;
+}
+
+dl.info dt{
+	display: inline-block;
+	width: 35%;
 	vertical-align: top;
+	text-align: right;
+}
+
+dl.info dd{
+	display: inline-block;
+	width: 60%;
+	margin: 0;
 }
 
 table.order_detail{

@@ -95,6 +95,10 @@ class CashierMainModule extends AdminControlPanelModule{
 		$input = file_get_contents('php://input');
 		if(!empty($input)){
 			$input = json_decode($input, true);
+			if(empty($input['bankaccountid'])){
+				exit('invalid operation');
+			}
+
 			$shopping_cart = $input['content'];
 			foreach($shopping_cart as $row){
 				if(empty($row['productid']) || empty($row['number']) || empty($row['amountunit']) || empty($row['subtotal']) || empty($row['warehouseid']))
@@ -169,6 +173,8 @@ class CashierMainModule extends AdminControlPanelModule{
 		$order->message = isset($input['message']) ? trim(htmlspecialchars($input['message'])) : '';
 		$order->userid = isset($input['userid']) ? intval($input['userid']) : 0;
 		$order->adminid = $_G['admin']->id;
+		$order->bankaccountid = intval($input['bankaccountid']);
+		$order->status = Order::Unsorted;
 		$order_succeeded = $order->insert();
 
 		if($order->paymentmethod == Wallet::ViaWallet){
@@ -180,11 +186,6 @@ class CashierMainModule extends AdminControlPanelModule{
 			}else{
 				$order->paymentmethod = Wallet::ViaCash;
 			}
-		}
-
-		$bankaccountid = isset($input['bankaccountid']) ? intval($input['bankaccountid']) : 0;
-		if($bankaccountid > 0){
-			$order->update('bankaccountid', $bankaccountid);
 		}
 
 		//显示订单提交结果

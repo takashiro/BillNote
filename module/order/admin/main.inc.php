@@ -376,6 +376,11 @@ class OrderMainModule extends AdminControlPanelModule{
 		if($orderid > 0){
 			$order = new Order($orderid);
 
+			$table = $db->select_table('user');
+			$user = $table->fetch_first('nickname,account', 'id='.$order->userid);
+			$order->nickname = $user['nickname'];
+			$order->account = $user['account'];
+
 			if($order->id <= 0){
 				exit('the order has been canceled');
 			}

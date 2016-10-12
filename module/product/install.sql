@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `pre_productstorage` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `productid` mediumint(8) unsigned NOT NULL,
   `remark` varchar(15) NOT NULL,
-  `num` int(11) NOT NULL,
+  `num` int(11) NOT NULL DEFAULT '0',
   `mode` tinyint(4) NOT NULL,
   `warehouseid` mediumint(8) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
