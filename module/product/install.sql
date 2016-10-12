@@ -3,21 +3,25 @@ DROP TABLE IF EXISTS `pre_product`;
 CREATE TABLE IF NOT EXISTS `pre_product` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `namecapital` varchar(50) NOT NULL,
   `type` tinyint(1) unsigned NOT NULL,
-  `briefintro` varchar(255) NOT NULL,
-  `introduction` text NOT NULL,
-  `icon` tinyint(1) NOT NULL,
-  `photo` tinyint(1) NOT NULL,
-  `soldout` int(11) unsigned NOT NULL,
+  `briefintro` varchar(255) NOT NULL DEFAULT '',
+  `introduction` text DEFAULT NULL,
+  `icon` tinyint(1) NOT NULL DEFAULT '0',
+  `photo` tinyint(1) NOT NULL DEFAULT '0',
+  `soldout` int(11) unsigned NOT NULL DEFAULT '0',
   `text_color` mediumint(8) unsigned NOT NULL DEFAULT '16777215',
   `background_color` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `icon_background` mediumint(8) unsigned NOT NULL DEFAULT '13164714',
-  `displayorder` tinyint(4) NOT NULL,
-  `hide` tinyint(1) NOT NULL,
+  `displayorder` tinyint(4) NOT NULL DEFAULT '0',
+  `hide` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `name` (`name`),
-  KEY `namecapital` (`namecapital`)
+  KEY `name` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `pre_productacronym` (
+  `id` mediumint(8) unsigned NOT NULL,
+  `name` varchar(50) NOT NULL,
+  KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `pre_productprice`;

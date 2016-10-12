@@ -243,10 +243,6 @@ class UserMainModule extends AdminControlPanelModule{
 				'nickname' => trim($_POST['nickname']),
 			);
 
-			if($user['nickname']){
-				$user['nicknameinitial'] = Hanzi::ToCapital($user['nickname']);
-			}
-
 			global $db;
 			$table = $db->select_table('user');
 
@@ -257,6 +253,19 @@ class UserMainModule extends AdminControlPanelModule{
 			}else{
 				$table->update($user, 'id='.$id);
 				$user['id'] = $id;
+			}
+
+			if($user['nickname']){
+				$table = $db->select_table('useracronym');
+				$table->delete('uid='.$user['id']);
+				$acronyms = Hanzi::ToAcronym($user['nickname']);
+				foreach($acronyms as $acronym){
+					$row = array(
+						'uid' => $user['id'],
+						'nickname' => $acronym,
+					);
+					$table->insert($row);
+				}
 			}
 
 			global $mod_url;
@@ -297,9 +306,12 @@ class UserMainModule extends AdminControlPanelModule{
 		);
 
 		if(!empty($query)){
-			global $db;
-			$table = $db->select_table('user');
-			$users = $table->fetch_all('id,nickname', 'deleted=0 AND nicknameinitial LIKE \''.$query.'%\' OR nickname LIKE \''.$query.'%\'');
+			global $db, $tpre;
+			$users = $db->fetch_all("SELECT id,nickname
+				FROM {$tpre}user
+				WHERE deleted=0
+					AND (nickname LIKE '$query%'
+						OR id IN (SELECT id FROM {$tpre}useracronym WHERE nickname LIKE '$query%'))");
 			foreach($users as $u){
 				$result['suggestions'][] = array(
 					'value' => $u['nickname'],

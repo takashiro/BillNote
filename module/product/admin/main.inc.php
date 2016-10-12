@@ -97,8 +97,7 @@ class ProductMainModule extends AdminControlPanelModule{
 			}
 
 			if(isset($_POST['name'])){
-				$product->name = $_POST['name'];
-				$product->namecapital = Hanzi::ToCapital($product->name);
+				$product->name = trim($_POST['name']);
 			}
 
 			if(isset($_POST['type'])){
@@ -144,6 +143,20 @@ class ProductMainModule extends AdminControlPanelModule{
 
 			if($productid == 0){
 				$product->insert();
+			}
+
+			if(isset($_POST['name'])){
+				$table = $db->select_table('productacronym');
+				$table->delete('id='.$product->id);
+
+				$acronyms = Hanzi::ToAcronym($product->name);
+				foreach($acronyms as $acronym){
+					$row = array(
+						'id' => $product->id,
+						'name' => $acronym,
+					);
+					$table->insert($row);
+				}
 			}
 
 			$product->uploadImage('icon');
