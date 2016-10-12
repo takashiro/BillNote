@@ -32,58 +32,6 @@ class Product extends DBObject{
 		}
 	}
 
-	function uploadImage($var, $attr = ''){
-		if(!$attr){
-			$attr = $var;
-		}
-
-		if($this->id && !empty($_FILES[$var]) && $_FILES[$var]['error'] == 0){
-			$file_info = pathinfo($_FILES[$var]['name']);
-			$ext = &$file_info['extension'];
-			switch($ext){
-				case 'jpg':case 'jpeg':
-					$image = imagecreatefromjpeg($_FILES[$var]['tmp_name']);
-					break;
-				case 'bmp':
-					$image = imagecreatefromwbmp($_FILES[$var]['tmp_name']);
-					break;
-				case 'gif':
-					$image = imagecreatefromgif($_FILES[$var]['tmp_name']);
-					break;
-				case 'png':
-					break;
-				default:
-					return false;
-			}
-
-			$dest_path = S_ROOT.'./data/attachment/product_'.$this->id.'_'.$attr.'.png';
-
-			if($ext != 'png'){
-				imagepng($image, $dest_path);
-			}else{
-				move_uploaded_file($_FILES[$var]['tmp_name'], $dest_path);
-			}
-
-			$this->$attr = 1;
-
-			return true;
-		}
-
-		return false;
-	}
-
-	function hasImage($attr){
-		return $this->$attr;
-	}
-
-	function getImage($attr){
-		if(!empty($this->$attr)){
-			return './data/attachment/product_'.$this->id.'_'.$attr.'.png';
-		}else{
-			return './view/user/default/image/product_unknown_icon.png';
-		}
-	}
-
 	public function getFilteredPrices(){
 		if($this->id <= 0){
 			return array();
