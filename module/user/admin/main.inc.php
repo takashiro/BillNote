@@ -299,7 +299,7 @@ class UserMainModule extends AdminControlPanelModule{
 		if(!empty($query)){
 			global $db;
 			$table = $db->select_table('user');
-			$users = $table->fetch_all('id,nickname', 'deleted=0 AND nicknameinitial LIKE \''.$query.'%\'');
+			$users = $table->fetch_all('id,nickname', 'deleted=0 AND nicknameinitial LIKE \''.$query.'%\' OR nickname LIKE \''.$query.'%\'');
 			foreach($users as $u){
 				$result['suggestions'][] = array(
 					'value' => $u['nickname'],
