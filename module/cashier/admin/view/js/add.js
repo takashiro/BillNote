@@ -1,4 +1,48 @@
 $(function(){
+	$('#product_list').editlist({
+		'edit': '',
+		'delete': '',
+		'noedit' : true,
+		'submit_url' : mod_url + '&action=order',
+		'attr' : ['', 'productid', 'number', 'amountunit', 'price', 'subtotal', 'warehouseid', 'storagenum'],
+		'buttons' : {'delete':'删除'},
+		'onSubmit' : function(){
+			var userid = $('#userid').val();
+			userid = parseInt(userid, 10);
+			if(isNaN(userid) || userid <= 0){
+				makeToast('请先填写往来单位。');
+				return true;
+			}
+			return false;
+		}
+	});
+
+	$('#product_input').autocomplete({
+		serviceUrl : 'admin.php?mod=product&action=suggest',
+
+		formatResult : function(suggestion, currentValue){
+			return suggestion.value;
+		},
+
+		onSelect : function(suggestion){
+			$(this).data('realvalue', suggestion.data);
+			$(this).val(suggestion.value);
+			$(this).change();
+	    }
+    });
+
+    $('#userid_input').autocomplete({
+		serviceUrl : 'admin.php?mod=user&action=suggest',
+
+		formatResult : function(suggestion, currentValue){
+			return suggestion.value;
+		},
+
+		onSelect : function(suggestion){
+			$('#userid').val(suggestion.data);
+		}
+    });
+
 	var warehouse_options = $('.warehouse_input select').html();
 	$('#product_list').on('change', '.product_input', function(){
 		var name_select = $(this);
