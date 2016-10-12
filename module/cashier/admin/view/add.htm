@@ -25,7 +25,7 @@ $(function(){
 		'delete': '',
 		'noedit' : true,
 		'submit_url' : '{$mod_url}&action=order',
-		'attr' : ['', 'productid', 'price', 'number', 'amountunit', 'subtotal', 'warehouseid', 'storagenum'],
+		'attr' : ['', 'productid', 'number', 'amountunit', 'price', 'subtotal', 'warehouseid', 'storagenum'],
 		'buttons' : {'delete':'删除'},
 		'onSubmit' : function(){
 			var userid = $('#userid').val();
@@ -107,8 +107,8 @@ ul.header_input li{
 			<tr>
 				<th></th>
 				<td>商品</td>
-				<td>单价 <span class="priceunit">（{echo Product::$PriceUnit}）</span></td>
 				<td colspan="2">数量</td>
+				<td>单价 <span class="priceunit">（{echo Product::$PriceUnit}）</span></td>
 				<td>总价 <span class="priceunit">（{echo Product::$PriceUnit}）</span></td>
 				<td>库存</td>
 				<td>库存余量</td>
@@ -120,13 +120,13 @@ ul.header_input li{
 				<th></th>
 				<td><input type="text" class="product_input" id="product_input" class="select" /></td>
 				<td>
-					<input type="text" class="price_input narrow number" value="1" autocomplete="off" />
-				</td>
-				<td>
 					<input type="text" class="number_input narrow number" value="1" autocomplete="off" />
 				</td>
 				<td>
 					{echo Template::select('', Product::AmountUnits())}
+				</td>
+				<td>
+					<input type="text" class="price_input narrow number" value="1" autocomplete="off" />
 				</td>
 				<td>
 					<input type="text" class="subtotal_input narrow number" value="1" autocomplete="off" />
