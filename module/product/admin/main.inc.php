@@ -241,10 +241,13 @@ class ProductMainModule extends AdminControlPanelModule{
 
 		if(!empty($query)){
 			global $db, $tpre;
-			$products = $db->fetch_all("SELECT id,name
-				FROM {$tpre}product
-				WHERE (name LIKE '$query%'
-						OR id IN (SELECT id FROM {$tpre}productacronym WHERE name LIKE '$query%'))");
+
+			$check_booking_mode = ProductStorage::IsBookingMode() ? ' OR mode='.ProductStorage::BookingMode : '';
+			$products = $db->fetch_all("SELECT p.id,p.name
+				FROM {$tpre}product p
+				WHERE (p.name LIKE '$query%'
+						OR p.id IN (SELECT id FROM {$tpre}productacronym WHERE name LIKE '$query%'))
+					AND EXISTS (SELECT * FROM {$tpre}productstorage WHERE productid=p.id AND (num>0 $check_booking_mode))");
 			foreach($products as $p){
 				$result['suggestions'][] = array(
 					'value' => $p['name'],
