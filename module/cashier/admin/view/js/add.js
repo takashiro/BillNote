@@ -143,6 +143,11 @@ $(function(){
 		calculate_total_price();
 	});
 
+	$('#product_list').on('click', 'button.add', function(){
+		var td = $('#product_list table tbody tr:last-child td:first');
+		td.find('input').focus();
+	});
+
 	$('.product_type_input select').change();
 
 	$('#paymentmethod').change(function(){
