@@ -14,6 +14,11 @@ $(function(){
 				return true;
 			}
 			return false;
+		},
+		'onSucceed' : function(response){
+			var url = 'admin.php?mod=order&action=ticket&orderid=' + response.extra;
+			window.open(url, 'ticket', 'width=330,status=no,titlebar=no,toolbar=no,location=no,menubar=no', false);
+			makeToast(response);
 		}
 	});
 
@@ -182,13 +187,4 @@ $(function(){
 		}
 	});
 	$('#paymentmethod').change();
-
-	var popupticket = location.href.split('popupticket=');
-	if(popupticket.length > 1){
-		popupticket = parseInt(popupticket[1], 10);
-		if(!isNaN(popupticket)){
-			var url = 'admin.php?mod=order&action=ticket&orderid=' + popupticket;
-			window.open(url, 'ticket', 'width=330,status=no,titlebar=no,toolbar=no,location=no,menubar=no', false);
-		}
-	}
 });

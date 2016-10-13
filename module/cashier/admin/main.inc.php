@@ -183,8 +183,7 @@ class CashierMainModule extends AdminControlPanelModule{
 		//显示订单提交结果
 		if($order_succeeded){
 			global $mod_url;
-			$print_link = $mod_url.'&popupticket='.$order->id;
-			showmsg('successfully_submitted_order', $print_link);
+			showmsg('successfully_submitted_order', $mod_url, $order->id);
 		}else{
 			showmsg('failed_to_submit_order', 'refresh');
 		}
