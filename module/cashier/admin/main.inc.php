@@ -87,7 +87,6 @@ class CashierMainModule extends AdminControlPanelModule{
 
 		$timestamp = TIMESTAMP;
 		$total_price = 0.00;
-		$item_deleted = false;//It's a flag indicates some items were deleted out of date.
 
 		//$cart is an array of items, with the key standing for its price id and the value for the number.
 		//$priceids is array_keys($cart)
@@ -113,10 +112,7 @@ class CashierMainModule extends AdminControlPanelModule{
 			}
 		}
 
-		$item_deleted = false;
 		if($cart){//Now the shopping cart is not empty. Let's calculate as a cashier.
-			$check_booking_mode = ProductStorage::IsBookingMode() ? ' OR s.mode='.ProductStorage::BookingMode : '';
-
 			$filtered_cart = array();
 			foreach($cart as $row){
 				$storage = $db->fetch_first("SELECT p.*,s.*
@@ -124,14 +120,13 @@ class CashierMainModule extends AdminControlPanelModule{
 						LEFT JOIN {$tpre}product p ON p.id=s.productid
 					WHERE s.warehouseid={$row['warehouseid']}
 						AND p.id={$row['productid']}
-						AND p.hide=0
-						AND (s.num>0 $check_booking_mode)");
-				if($storage){
+						AND p.hide=0");
+				if($storage && ($storage['num'] > 0 || ($storage['mode'] == ProductStorage::BookingMode && ProductStorage::IsBookingMode()))){
 					$row = array_merge($row, $storage);
 					$row['storageid'] = intval($storage['id']);
 					$filtered_cart[] = $row;
 				}else{
-					$item_deleted = true;
+					showmsg(array('storage_is_insufficient', $storage['name']), 'back');
 				}
 			}
 
@@ -139,11 +134,7 @@ class CashierMainModule extends AdminControlPanelModule{
 		}
 
 		if(!$cart){
-			if($item_deleted){
-				showmsg('shopping_cart_empty_because_of_item_deleted', 'refresh');
-			}else{
-				showmsg('shopping_cart_empty', 'refresh');
-			}
+			showmsg('shopping_cart_empty', 'refresh');
 		}
 
 		$order = new Order;
@@ -156,14 +147,15 @@ class CashierMainModule extends AdminControlPanelModule{
 		unset($p);
 
 		//增加产品对应的销量，该销量仅供参考
+		$db->query('START TRANSACTION');
 		foreach($cart as &$p){
-			$succeeded = $order->addDetail($p);
-			$succeeded || $item_deleted = true;
-
-			$totalamount = $p['amount'] * $p['number'];
-			$db->query("UPDATE LOW_PRIORITY {$tpre}product SET soldout=soldout+$totalamount WHERE id={$p['productid']}");
+			if(!$order->addDetail($p)){
+				$db->query('ROLLBACK');
+				showmsg(array('storage_is_insufficient', $p['name'].'('.$p['subtype'].')'), 'back');
+			}
 		}
 		unset($p);
+		$db->query('COMMIT');
 
 		//将订单插入到数据库中
 		$order->tradestate = 3;
@@ -192,11 +184,7 @@ class CashierMainModule extends AdminControlPanelModule{
 		if($order_succeeded){
 			global $mod_url;
 			$print_link = $mod_url.'&popupticket='.$order->id;
-			if(!$item_deleted){
-				showmsg('successfully_submitted_order', $print_link);
-			}else{
-				showmsg('successfully_submitted_order_with_item_deleted', $print_link);
-			}
+			showmsg('successfully_submitted_order', $print_link);
 		}else{
 			showmsg('failed_to_submit_order', 'refresh');
 		}
