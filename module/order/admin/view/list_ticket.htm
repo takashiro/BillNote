@@ -20,6 +20,10 @@
 	width: 6cm;
 	height: 2.5cm;
 }
+
+p{
+	margin: 4px 0;
+}
 </style>
 <style type="text/css" media="print">
 .footer{
@@ -99,8 +103,14 @@ window.close();
 				<td>{$d['subtotal']}</td>
 			</tr>
 		<!--{/loop}-->
+			<tr>
+				<td colspan="2">账户：$order[bankaccount]</td>
+				<td colspan="2">合计：$order[totalprice]</td>
+			</tr>
 		</tbody>
 	</table>
+
+	<p>备注：$order[message]</p>
 </div>
 
 <div class="footer">

@@ -381,6 +381,10 @@ class OrderMainModule extends AdminControlPanelModule{
 			$order->nickname = $user['nickname'];
 			$order->account = $user['account'];
 
+			$table = $db->select_table('bankaccount');
+			$bankaccount = $table->fetch_first('remark', 'id='.$order->bankaccountid);
+			$order->bankaccount = $bankaccount['remark'];
+
 			if($order->id <= 0){
 				exit('the order has been canceled');
 			}
