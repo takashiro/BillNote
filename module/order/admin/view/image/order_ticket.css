@@ -1,5 +1,5 @@
 body{
-	font-size: 11pt;
+	font-size: 12pt;
 	width: 80mm;
 	margin: 0;
 	font-family: 宋体;
@@ -19,6 +19,11 @@ body{
 .header h2{
 	font-size: 16pt;
 	margin: 0;
+}
+
+.tips p{
+	margin: 4px 0;
+	font-size: 11pt;
 }
 
 table{
@@ -68,4 +73,13 @@ table.order_detail td.number{
 #print_button{
 	margin: auto;
 	display: block;
+}
+
+.barcode{
+	text-align: center;
+}
+
+.barcode canvas{
+	width: 6cm;
+	height: 2.5cm;
 }

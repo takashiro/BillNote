@@ -10,21 +10,7 @@
 <!--{if !empty($_CONFIG['jquery_cdn'])}-->
 <script type="text/javascript" src="$_CONFIG[jquery_cdn]"></script>
 <!--{/if}-->
-<script type="text/javascript">window.jQuery || document.write('<script src="./3rdparty/jquery/jquery-3.0.0.min.js"><\/script>');</script>
-<style type="text/css">
-.barcode{
-	text-align: center;
-}
-
-.barcode canvas{
-	width: 6cm;
-	height: 2.5cm;
-}
-
-p{
-	margin: 4px 0;
-}
-</style>
+<script type="text/javascript">window.jQuery || document.write('<script src="./3rdparty/jquery/jquery-3.1.0.min.js"><\/script>');</script>
 <style type="text/css" media="print">
 .footer{
 	page-break-after: always;
@@ -97,9 +83,9 @@ window.close();
 		<!--{loop $order['detail'] $d}-->
 			<tr>
 				<td><!--{if $d['state'] == 1}-->[缺货]<!--{/if}-->$d[productname]<!--{if !empty($d['subtype'])}-->($d[subtype])<!--{/if}--></td>
-				<td>{echo $d['amount'] * $d['number']} $d[amountunit]</td>
-				<td>{echo sprintf('%.2f', $d['subtotal'] / $d['amount'] / $d['number'])}</td>
-				<td>{$d['subtotal']}</td>
+				<td>{echo sprintf('%.0f', $d['amount'] * $d['number'])}$d[amountunit]</td>
+				<td>{echo sprintf('%.0f', $d['subtotal'] / $d['amount'] / $d['number'])}</td>
+				<td>{echo sprintf('%.0f', $d['subtotal'])}</td>
 			</tr>
 		<!--{/loop}-->
 			<tr>
