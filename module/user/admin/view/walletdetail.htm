@@ -1,0 +1,55 @@
+<!--{template header}-->
+
+<script src="{STATIC_URL}js/datetime.js"></script>
+
+<ol class="nav">
+	<li><a href="admin.php">管理面板</a></li>
+	<li><a href="admin.php?mod=payment">账单</a></li>
+	<li>账单列表</li>
+</ol>
+
+<div class="box list">
+	<h1>钱包记录</h1>
+
+	<form class="quick_search" action="admin.php" method="get">
+		<input type="hidden" name="mod" value="$mod">
+		<!--{if isset($query_string['userid'])}-->
+		<input type="hidden" name="userid" value="$query_string[userid]">
+		<!--{/if}-->
+		<dl>
+			<dt>订单号：</dt>
+			<dd><input type="text" name="logid">
+		</dl>
+		<dl>
+			<dt>时间：</dt>
+			<dd><input type="text" name="time_start" class="datetime" value="$time_start"> - <input type="text" name="time_end" class="datetime" value="$time_end"></dd>
+		</dl>
+		<button type="submit" name="format" value="html">查找</button>
+		<button type="submit" name="format" value="csv">导出</button>
+	</form>
+
+	<div class="content">
+		<table>
+			<thead>
+				<tr><td>用户ID</td><td>用户昵称</td><td>时间</td><td>类型</td><td>金额</td><td>账户余额</td><td>订单号</td></tr>
+			</thead>
+			<tbody>
+			<!--{mysql_fetch $logs $l}-->
+			<tr>
+				<td><a href="admin.php?mod=user&action=profile&id=$l[uid]">$l[uid]</a></td>
+				<td>$l[nickname]</td>
+				<td>{echo rdate($l['dateline'])}</td>
+				<td>{echo Wallet::$LogType[$l['type']]}</td>
+				<td>$l[delta]</td>
+				<td>$l[current]</td>
+				<td><!--{if $l['type'] == Wallet::RechargeLog}-->-<!--{elseif $l['orderid']}--><a href="admin.php?mod=order&action=list&time_start=&time_end=&orderid=$l[orderid]">$l[orderid]</a><!--{/if}--></td>
+			</tr>
+			<!--{/mysql_fetch}-->
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{echo Template::mpage($pagenum, $page, $limit, $mod_url.'&'.http_build_query($query_string))}
+
+<!--{template footer}-->

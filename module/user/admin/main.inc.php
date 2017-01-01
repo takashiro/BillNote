@@ -213,6 +213,7 @@ class UserMainModule extends AdminControlPanelModule{
 				'type' => Wallet::AdminModLog,
 				'dateline' => TIMESTAMP,
 				'delta' => $delta,
+				'cost' => 0.00,
 			);
 			$table = $db->select_table('userwalletlog');
 			$table->insert($log);
