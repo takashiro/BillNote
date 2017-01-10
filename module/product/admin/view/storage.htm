@@ -10,7 +10,8 @@ p.subtype{
 }
 </style>
 
-<script type="text/javascript">
+<script src="js/jquery.editlist.js?$_CONFIG[refversion]"></script>
+<script>
 var ProductList = {echo json_encode($products)};
 
 $(function(){
@@ -24,7 +25,7 @@ $(function(){
 	});
 });
 </script>
-<script type="text/javascript" src="extension/module/product/admin/view/js/productstorage.js?$_CONFIG[refversion]"></script>
+<script src="extension/module/product/admin/view/js/productstorage.js?$_CONFIG[refversion]"></script>
 
 <ol class="nav">
 	<li><a href="admin.php">管理面板</a></li>
